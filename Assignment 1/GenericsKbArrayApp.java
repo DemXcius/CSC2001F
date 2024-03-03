@@ -4,8 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class GenericsKbArrayApp {
-    public static String fileName = "GenericsKB-additional.txt";
-
+    private static String[] arrFile;
     public static int NumLines(String fileName) {
         int lines = 0;
         String file = fileName;
@@ -46,6 +45,19 @@ public class GenericsKbArrayApp {
 
     }
 
+    public static void ReplaceElement(String searchTerm, String newElement) {
+        for (int i = 0; i < arrFile.length; i++) {
+            String line = arrFile[i];
+            if (line.contains(searchTerm)) {
+                int tabIndex = line.indexOf('\t');
+                if (tabIndex != -1) {
+                    // Replace the part of the line until the tab with the new element
+                    arrFile[i] = newElement + line.substring(tabIndex);
+                }
+            }
+        }
+    }
+
     public static void main(String args) {
         
         String menuInput = "";
@@ -80,6 +92,14 @@ public class GenericsKbArrayApp {
                 System.out.println("Enter the confidence score: ");
                 dataInput = keyboard.nextLine();
                 String confidence = dataInput;
+                String newElement = term + "\t" + statement + "\t" + confidence;
+                // Append the new element to the array
+                String[] newArrFile = new String[arrFile.length + 1];
+                System.arraycopy(arrFile, 0, newArrFile, 0, arrFile.length);
+                newArrFile[arrFile.length] = newElement;
+                arrFile = newArrFile;
+                System.out.println("\nStatement for term " + term + " has been updated.\n");
+                System.out.println(menu); 
             }
         }
 
