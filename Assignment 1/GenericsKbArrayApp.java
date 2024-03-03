@@ -5,6 +5,7 @@ import java.io.IOException;
 
 public class GenericsKbArrayApp {
     private static String[] arrFile;
+
     public static int NumLines(String fileName) {
         int lines = 0;
         String file = fileName;
@@ -45,44 +46,67 @@ public class GenericsKbArrayApp {
 
     }
 
-    public static void ReplaceElement(String searchTerm, String newElement) {
-        for (int i = 0; i < arrFile.length; i++) {
-            String line = arrFile[i];
-            if (line.contains(searchTerm)) {
-                int tabIndex = line.indexOf('\t');
-                if (tabIndex != -1) {
-                    // Replace the part of the line until the tab with the new element
-                    arrFile[i] = newElement + line.substring(tabIndex);
+    public static void SearchByTerm(String searchTerm) {
+        if (arrFile == null) {
+            System.out.println("Knowledge base has not been loaded yet.");
+            return;
+        }
+        boolean found = false;
+        for (String entry : arrFile) {
+            if (entry.contains(searchTerm)) {
+                String[] parts = entry.split("\t");
+                if (parts.length >= 3) {
+                    String statement = parts[1];
+                    String confidence = parts[2];
+                    System.out.println("Statement found: " + statement + " (Confidence score: " + confidence + ")");
+                    found = true;
                 }
             }
         }
+        if (!found) {
+            System.out.println("Term not found in the knowledge base.");
+        }
     }
 
+    /*
+     * public static void ReplaceElement(String searchTerm, String newElement) {
+     * for (int i = 0; i < arrFile.length; i++) {
+     * String line = arrFile[i];
+     * if (line.contains(searchTerm)) {
+     * int tabIndex = line.indexOf('\t');
+     * if (tabIndex != -1) {
+     * // Replace the part of the line until the tab with the new element
+     * arrFile[i] = newElement + line.substring(tabIndex);
+     * }
+     * }
+     * }
+     * }
+     */
     public static void main(String args) {
-        
+
         String menuInput = "";
         String dataInput = "";
         Scanner keyboard = new Scanner(System.in);
-        
-        String menu ="Choose an action from the menu:\r\n" + //
-        "1. Load a knowledge base from a file\r\n" + //
-        "2. Add a new statement to the knowledge base\r\n" + //
-        "3. Search for an item in the knowledge base by term\r\n" + //
-        "4. Search for a item in the knowledge base by term and sentence\r\n" + //
-        "5. Quit\r\n" + //
-        "Enter your choice";
+
+        String menu = "Choose an action from the menu:\r\n" + //
+                "1. Load a knowledge base from a file\r\n" + //
+                "2. Add a new statement to the knowledge base\r\n" + //
+                "3. Search for an item in the knowledge base by term\r\n" + //
+                "4. Search for a item in the knowledge base by term and sentence\r\n" + //
+                "5. Quit\r\n" + //
+                "Enter your choice";
         System.out.println(menu);
         menuInput = keyboard.nextLine();
 
         while (!menuInput.equals("5")) {
-            if (menuInput == "1"){
+            if (menuInput == "1") {
                 System.out.println("Enter file name: ");
                 dataInput = keyboard.nextLine();
                 String[] arrFile = PopulateArray(dataInput);
-                System.out.println("\n Knowledge base loaded successfully.\n"); 
-                System.out.println(menu);    
+                System.out.println("\n Knowledge base loaded successfully.\n");
+                System.out.println(menu);
 
-            }else if (menuInput == "2"){
+            } else if (menuInput == "2") {
                 System.out.println("Enter the term: ");
                 dataInput = keyboard.nextLine();
                 String term = dataInput;
@@ -99,7 +123,15 @@ public class GenericsKbArrayApp {
                 newArrFile[arrFile.length] = newElement;
                 arrFile = newArrFile;
                 System.out.println("\nStatement for term " + term + " has been updated.\n");
-                System.out.println(menu); 
+                System.out.println(menu);
+                //Turn Option 2 into a function
+
+            } else if (menuInput == "3") {
+                System.out.println("Enter the term to search: ");
+                dataInput = keyboard.nextLine();
+                SearchByTerm(dataInput);
+            } else if (menuInput == "4"){
+                
             }
         }
 
