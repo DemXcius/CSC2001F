@@ -68,6 +68,28 @@ public class GenericsKbArrayApp {
         }
     }
 
+    public static void SearchByTermAndStatement(String searchTerm, String searchStatement) {
+        if (arrFile == null) {
+            System.out.println("Knowledge base has not been loaded yet.");
+            return;
+        }
+        boolean found = false;
+        for (String entry : arrFile) {
+            if (entry.contains(searchTerm) && entry.contains(searchStatement)) {
+                String[] parts = entry.split("\t");
+                if (parts.length >= 3) {
+                    String statement = parts[1];
+                    String confidence = parts[2];
+                    System.out.println("The statement was found and has a confidence score of  " + confidence + ".");
+                    found = true;
+                }
+            }
+        }
+        if (!found) {
+            System.out.println("Term and statement not found in the knowledge base.");
+        }
+    }
+
     /*
      * public static void ReplaceElement(String searchTerm, String newElement) {
      * for (int i = 0; i < arrFile.length; i++) {
@@ -130,8 +152,16 @@ public class GenericsKbArrayApp {
                 System.out.println("Enter the term to search: ");
                 dataInput = keyboard.nextLine();
                 SearchByTerm(dataInput);
+
             } else if (menuInput == "4"){
-                
+                System.out.println("Enter the term: ");
+                dataInput = keyboard.nextLine();
+                String term = dataInput;
+                System.out.println("Enter the statement to search for: ");
+                dataInput = keyboard.nextLine();
+                String statement = dataInput;
+                SearchByTermAndStatement(term, statement);
+
             }
         }
 
