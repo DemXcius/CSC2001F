@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -58,7 +59,7 @@ public class GenericsKbArrayApp {
                 if (parts.length >= 3) {
                     String statement = parts[1];
                     String confidence = parts[2];
-                    System.out.println("Statement found: " + statement + " (Confidence score: " + confidence + ")");
+                    System.out.println("\nStatement found: " + statement + " (Confidence score: " + confidence + ")\n");
                     found = true;
                 }
             }
@@ -80,7 +81,7 @@ public class GenericsKbArrayApp {
                 if (parts.length >= 3) {
                     String statement = parts[1];
                     String confidence = parts[2];
-                    System.out.println("The statement was found and has a confidence score of  " + confidence + ".");
+                    System.out.println("\nThe statement was found and has a confidence score of  " + confidence + ".\n");
                     found = true;
                 }
             }
@@ -104,7 +105,7 @@ public class GenericsKbArrayApp {
      * }
      * }
      */
-    public static void main(String args) {
+    public static void main(String[] args) {
 
         String menuInput = "";
         String dataInput = "";
@@ -115,54 +116,70 @@ public class GenericsKbArrayApp {
                 "2. Add a new statement to the knowledge base\r\n" + //
                 "3. Search for an item in the knowledge base by term\r\n" + //
                 "4. Search for a item in the knowledge base by term and sentence\r\n" + //
-                "5. Quit\r\n" + //
-                "Enter your choice";
-        System.out.println(menu);
-        menuInput = keyboard.nextLine();
+                "5. Quit\r\n\n" + //
+                "Enter your choice: ";
+        
 
         while (!menuInput.equals("5")) {
-            if (menuInput == "1") {
-                System.out.println("Enter file name: ");
-                dataInput = keyboard.nextLine();
-                String[] arrFile = PopulateArray(dataInput);
-                System.out.println("\n Knowledge base loaded successfully.\n");
-                System.out.println(menu);
+            System.out.print(menu);
+            menuInput = keyboard.nextLine().trim();
 
-            } else if (menuInput == "2") {
-                System.out.println("Enter the term: ");
+            if (menuInput.equals("1")) {
+                System.out.print("Enter file name: ");
+                dataInput = keyboard.nextLine();
+                arrFile = PopulateArray(dataInput);
+                System.out.println("\n Knowledge base loaded successfully.\n");
+
+            } else if (menuInput.equals("2")){
+                if (arrFile == null) {
+                    System.out.println("\nKnowledge base has not been loaded yet.\n");
+                    System.out.print(menu);
+                    continue;  // Skip adding the new element
+                }
+                System.out.print("Enter the term: ");
                 dataInput = keyboard.nextLine();
                 String term = dataInput;
-                System.out.println("Enter the statement: ");
+                System.out.print("Enter the statement: ");
                 dataInput = keyboard.nextLine();
                 String statement = dataInput;
-                System.out.println("Enter the confidence score: ");
+                System.out.print("Enter the confidence score: ");
                 dataInput = keyboard.nextLine();
                 String confidence = dataInput;
                 String newElement = term + "\t" + statement + "\t" + confidence;
                 // Append the new element to the array
-                String[] newArrFile = new String[arrFile.length + 1];
-                System.arraycopy(arrFile, 0, newArrFile, 0, arrFile.length);
-                newArrFile[arrFile.length] = newElement;
-                arrFile = newArrFile;
+                arrFile = Arrays.copyOf(arrFile, arrFile.length + 1);
+                arrFile[arrFile.length - 1] = newElement;
                 System.out.println("\nStatement for term " + term + " has been updated.\n");
-                System.out.println(menu);
+                
                 //Turn Option 2 into a function
 
-            } else if (menuInput == "3") {
-                System.out.println("Enter the term to search: ");
+            } else if (menuInput.equals("3")){
+                if (arrFile == null) {
+                    System.out.println("\nKnowledge base has not been loaded yet.\n");
+                    System.out.print(menu);
+                    continue;  // Skip adding the new element
+                }
+                System.out.print("Enter the term to search: ");
                 dataInput = keyboard.nextLine();
                 SearchByTerm(dataInput);
 
-            } else if (menuInput == "4"){
-                System.out.println("Enter the term: ");
+            } else if (menuInput.equals("4")){
+                if (arrFile == null) {
+                    System.out.println("\nKnowledge base has not been loaded yet.\n");
+                    System.out.print(menu);
+                    continue;  // Skip adding the new element
+                }
+                System.out.print("Enter the term: ");
                 dataInput = keyboard.nextLine();
                 String term = dataInput;
-                System.out.println("Enter the statement to search for: ");
+                System.out.print("Enter the statement to search for: ");
                 dataInput = keyboard.nextLine();
                 String statement = dataInput;
                 SearchByTermAndStatement(term, statement);
+            } 
 
-            }
+            
+            
         }
 
     }
