@@ -181,6 +181,7 @@ public class GenericsKbArrayApp {
             
             
         }
+        keyboard.close();
 
     }
 
