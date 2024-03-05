@@ -4,9 +4,17 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * A program to manage a knowledge base using an array.
+ */
 public class GenericsKbArrayApp {
-    private static String[] arrFile;
+    private static String[] arrFile; // Array to hold data from file
 
+    /**
+     * Counts the number of lines in a file.
+     * @param fileName The name of the file to count lines.
+     * @return The number of lines in the file.
+     */
     public static int NumLines(String fileName) {
         int lines = 0;
         String file = fileName;
@@ -20,13 +28,16 @@ public class GenericsKbArrayApp {
             bufferedReader.close();
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
-
         }
         return lines;
     }
 
+    /**
+     * Populates an array with lines from a file.
+     * @param fileName The name of the file to read lines from.
+     * @return An array containing the lines from the file.
+     */
     public static String[] PopulateArray(String fileName) {
-        // Code to get arrFile to contain all the lines from the file
         int numLines = NumLines(fileName);
         String[] arrFile = new String[numLines];
         try {
@@ -39,14 +50,16 @@ public class GenericsKbArrayApp {
                 arrFile[index++] = line;
             }
             bufferedReader.close();
-
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
         }
         return arrFile;
-
     }
 
+    /**
+     * Searches for an item in the knowledge base by term.
+     * @param searchTerm The term to search for.
+     */
     public static void SearchByTerm(String searchTerm) {
         if (arrFile == null) {
             System.out.println("Knowledge base has not been loaded yet.");
@@ -69,6 +82,11 @@ public class GenericsKbArrayApp {
         }
     }
 
+    /**
+     * Searches for an item in the knowledge base by term and statement.
+     * @param searchTerm The term to search for.
+     * @param searchStatement The statement to search for.
+     */
     public static void SearchByTermAndStatement(String searchTerm, String searchStatement) {
         if (arrFile == null) {
             System.out.println("Knowledge base has not been loaded yet.");
@@ -79,7 +97,6 @@ public class GenericsKbArrayApp {
             if (entry.contains(searchTerm) && entry.contains(searchStatement)) {
                 String[] parts = entry.split("\t");
                 if (parts.length >= 3) {
-                    String statement = parts[1];
                     String confidence = parts[2];
                     System.out.println("\nThe statement was found and has a confidence score of  " + confidence + ".\n");
                     found = true;
@@ -91,19 +108,9 @@ public class GenericsKbArrayApp {
         }
     }
 
-    /*
-     * public static void ReplaceElement(String searchTerm, String newElement) {
-     * for (int i = 0; i < arrFile.length; i++) {
-     * String line = arrFile[i];
-     * if (line.contains(searchTerm)) {
-     * int tabIndex = line.indexOf('\t');
-     * if (tabIndex != -1) {
-     * // Replace the part of the line until the tab with the new element
-     * arrFile[i] = newElement + line.substring(tabIndex);
-     * }
-     * }
-     * }
-     * }
+    /**
+     * Main method to run the program.
+     * @param args Command line arguments (not used).
      */
     public static void main(String[] args) {
 
@@ -118,7 +125,6 @@ public class GenericsKbArrayApp {
                 "4. Search for a item in the knowledge base by term and sentence\r\n" + //
                 "5. Quit\r\n\n" + //
                 "Enter your choice: ";
-        
 
         while (!menuInput.equals("5")) {
             System.out.print(menu);
@@ -150,8 +156,6 @@ public class GenericsKbArrayApp {
                 arrFile = Arrays.copyOf(arrFile, arrFile.length + 1);
                 arrFile[arrFile.length - 1] = newElement;
                 System.out.println("\nStatement for term " + term + " has been updated.\n");
-                
-                //Turn Option 2 into a function
 
             } else if (menuInput.equals("3")){
                 if (arrFile == null) {
@@ -177,12 +181,7 @@ public class GenericsKbArrayApp {
                 String statement = dataInput;
                 SearchByTermAndStatement(term, statement);
             } 
-
-            
-            
         }
         keyboard.close();
-
     }
-
 }

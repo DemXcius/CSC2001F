@@ -1,8 +1,8 @@
 import java.util.Scanner;
 
-
-//Represents a node in a binary tree.
-
+/**
+ * Represents a node in a binary tree.
+ */
 class TreeNode {
     String data;
     TreeNode left;
@@ -10,7 +10,6 @@ class TreeNode {
 
     /**
      * Constructs a TreeNode with the given data.
-     * 
      * @param data The data to be stored in the node.
      */
     public TreeNode(String data) {
@@ -19,22 +18,21 @@ class TreeNode {
     }
 }
 
-
-//Represents a binary search tree.
- 
+/**
+ * Represents a binary search tree.
+ */
 class BinarySearchTree {
     TreeNode root;
 
-
-    //Constructs an empty binary search tree.
-    
+    /**
+     * Constructs an empty binary search tree.
+     */
     public BinarySearchTree() {
         root = null;
     }
 
     /**
      * Inserts a new data into the binary search tree.
-     * 
      * @param data The data to be inserted.
      */
     public void insert(String data) {
@@ -58,7 +56,6 @@ class BinarySearchTree {
 
     /**
      * Searches for a data in the binary search tree.
-     * 
      * @param data The data to be searched.
      * @return true if the data is found, false otherwise.
      */
@@ -82,9 +79,9 @@ class BinarySearchTree {
         return searchRec(root.right, data);
     }
 
-    
-    //Prints the data in the binary search tree in inorder traversal.
-    
+    /**
+     * Prints the data in the binary search tree in inorder traversal.
+     */
     public void inOrder() {
         inOrderRec(root);
     }
@@ -98,14 +95,14 @@ class BinarySearchTree {
     }
 }
 
- //Main class to demonstrate the binary search tree application.
- 
+/**
+ * Main class to demonstrate the binary search tree application.
+ */
 public class GenericsKbBSTApp {
     private static BinarySearchTree bst;
 
     /**
      * Main method to run the binary search tree application.
-     * 
      * @param args The command line arguments.
      */
     public static void main(String[] args) {
