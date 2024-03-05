@@ -12,6 +12,7 @@ public class GenericsKbArrayApp {
 
     /**
      * Counts the number of lines in a file.
+     * 
      * @param fileName The name of the file to count lines.
      * @return The number of lines in the file.
      */
@@ -34,6 +35,7 @@ public class GenericsKbArrayApp {
 
     /**
      * Populates an array with lines from a file.
+     * 
      * @param fileName The name of the file to read lines from.
      * @return An array containing the lines from the file.
      */
@@ -58,6 +60,7 @@ public class GenericsKbArrayApp {
 
     /**
      * Searches for an item in the knowledge base by term.
+     * 
      * @param searchTerm The term to search for.
      */
     public static void SearchByTerm(String searchTerm) {
@@ -84,9 +87,11 @@ public class GenericsKbArrayApp {
 
     /**
      * Searches for an item in the knowledge base by term and statement.
-     * @param searchTerm The term to search for.
+     * 
+     * @param searchTerm      The term to search for.
      * @param searchStatement The statement to search for.
      */
+
     public static void SearchByTermAndStatement(String searchTerm, String searchStatement) {
         if (arrFile == null) {
             System.out.println("Knowledge base has not been loaded yet.");
@@ -98,7 +103,8 @@ public class GenericsKbArrayApp {
                 String[] parts = entry.split("\t");
                 if (parts.length >= 3) {
                     String confidence = parts[2];
-                    System.out.println("\nThe statement was found and has a confidence score of  " + confidence + ".\n");
+                    System.out
+                            .println("\nThe statement was found and has a confidence score of  " + confidence + ".\n");
                     found = true;
                 }
             }
@@ -110,6 +116,7 @@ public class GenericsKbArrayApp {
 
     /**
      * Main method to run the program.
+     * 
      * @param args Command line arguments (not used).
      */
     public static void main(String[] args) {
@@ -136,11 +143,11 @@ public class GenericsKbArrayApp {
                 arrFile = PopulateArray(dataInput);
                 System.out.println("\n Knowledge base loaded successfully.\n");
 
-            } else if (menuInput.equals("2")){
+            } else if (menuInput.equals("2")) {
                 if (arrFile == null) {
                     System.out.println("\nKnowledge base has not been loaded yet.\n");
                     System.out.print(menu);
-                    continue;  // Skip adding the new element
+                    continue; // Skip adding the new element
                 }
                 System.out.print("Enter the term: ");
                 dataInput = keyboard.nextLine();
@@ -157,21 +164,21 @@ public class GenericsKbArrayApp {
                 arrFile[arrFile.length - 1] = newElement;
                 System.out.println("\nStatement for term " + term + " has been updated.\n");
 
-            } else if (menuInput.equals("3")){
+            } else if (menuInput.equals("3")) {
                 if (arrFile == null) {
                     System.out.println("\nKnowledge base has not been loaded yet.\n");
                     System.out.print(menu);
-                    continue;  // Skip adding the new element
+                    continue; // Skip adding the new element
                 }
                 System.out.print("Enter the term to search: ");
                 dataInput = keyboard.nextLine();
                 SearchByTerm(dataInput);
 
-            } else if (menuInput.equals("4")){
+            } else if (menuInput.equals("4")) {
                 if (arrFile == null) {
                     System.out.println("\nKnowledge base has not been loaded yet.\n");
                     System.out.print(menu);
-                    continue;  // Skip adding the new element
+                    continue; // Skip adding the new element
                 }
                 System.out.print("Enter the term: ");
                 dataInput = keyboard.nextLine();
@@ -180,7 +187,7 @@ public class GenericsKbArrayApp {
                 dataInput = keyboard.nextLine();
                 String statement = dataInput;
                 SearchByTermAndStatement(term, statement);
-            } 
+            }
         }
         keyboard.close();
     }

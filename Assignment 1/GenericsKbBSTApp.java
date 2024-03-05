@@ -10,6 +10,7 @@ class TreeNode {
 
     /**
      * Constructs a TreeNode with the given data.
+     * 
      * @param data The data to be stored in the node.
      */
     public TreeNode(String data) {
@@ -33,6 +34,7 @@ class BinarySearchTree {
 
     /**
      * Inserts a new data into the binary search tree.
+     * 
      * @param data The data to be inserted.
      */
     public void insert(String data) {
@@ -56,6 +58,7 @@ class BinarySearchTree {
 
     /**
      * Searches for a data in the binary search tree.
+     * 
      * @param data The data to be searched.
      * @return true if the data is found, false otherwise.
      */
@@ -103,6 +106,7 @@ public class GenericsKbBSTApp {
 
     /**
      * Main method to run the binary search tree application.
+     * 
      * @param args The command line arguments.
      */
     public static void main(String[] args) {
