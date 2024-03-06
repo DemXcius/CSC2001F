@@ -100,6 +100,7 @@ class BinarySearchTree {
 
     private boolean searchRecByTermAndSentence(TreeNode root, String term, String sentence) {
         if (root == null) {
+            System.out.println("\nTerm and statement: '" + term + "' and '" + sentence +"' not found.\n");
             return false;
         }
     
@@ -123,19 +124,25 @@ class BinarySearchTree {
      * Prints the terms in the binary search tree in inorder traversal.
      */
     public void inOrder(String term) {
-        inOrderRec(root, term);
+        boolean found = inOrderRec(root, term);
+        if (!found) {
+            System.out.println("Term '" + term + "' not found in the knowledge base.");
+        }
     }
-
-    private void inOrderRec(TreeNode root, String term) {
+    
+    private boolean inOrderRec(TreeNode root, String term) {
+        boolean found = false;
         if (root != null) {
-            inOrderRec(root.left, term);
+            found |= inOrderRec(root.left, term);
             String[] parts = root.data.split("\t");
             String termPart = parts[0]; // Extract the term part from the data
             if (termPart.equals(term) || termPart.startsWith(term + " ")) {
                 System.out.println(root.data); // Print the entire line
+                found = true;
             }
-            inOrderRec(root.right, term);
+            found |= inOrderRec(root.right, term);
         }
+        return found;
     }
 }
 /**
@@ -220,6 +227,7 @@ public class GenericsKbBSTApp {
                 // Search for item in the knowledge base by term
                 bst.inOrder(searchTerm); // Example: Print all statements, replace with search logic
                 System.out.println("");
+
             } else if (menuInput.equals("4")) {
                 if (!knowledgeBaseLoaded) {
                     System.out.println("\nKnowledge base has not been loaded yet.\n");
