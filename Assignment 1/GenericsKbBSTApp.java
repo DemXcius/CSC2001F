@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
@@ -92,7 +94,7 @@ class BinarySearchTree {
     private void inOrderRec(TreeNode root) {
         if (root != null) {
             inOrderRec(root.left);
-            System.out.println(root.data);
+            System.out.println("\n" + root.data + "\n");
             inOrderRec(root.right);
         }
     }
@@ -103,6 +105,27 @@ class BinarySearchTree {
  */
 public class GenericsKbBSTApp {
     private static BinarySearchTree bst;
+    private static boolean knowledgeBaseLoaded = false;
+
+    /**
+     * Loads the knowledge base from the specified file.
+     * 
+     * @param fileName The name of the file containing the knowledge base.
+     */
+    private static void loadKnowledgeBase(String fileName) {
+        try {
+            Scanner fileScanner = new Scanner(new File(fileName));
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                bst.insert(line); // Assuming each line represents a statement in the knowledge base
+            }
+            System.out.println("Knowledge base loaded successfully.");
+            knowledgeBaseLoaded = true;
+            fileScanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("\nFile not found: " + fileName + "\n");
+        }
+    }
 
     /**
      * Main method to run the binary search tree application.
@@ -130,8 +153,13 @@ public class GenericsKbBSTApp {
                 System.out.print("Enter file name: ");
                 String dataInput = keyboard.nextLine();
                 // Load knowledge base from file (if needed)
+                loadKnowledgeBase(dataInput);
 
             } else if (menuInput.equals("2")) {
+                if (!knowledgeBaseLoaded) {
+                    System.out.println("\nKnowledge base has not been loaded yet.\n");
+                    continue; // Skip adding the new element
+                }
                 System.out.print("Enter the term: ");
                 String term = keyboard.nextLine();
                 System.out.print("Enter the statement: ");
@@ -144,12 +172,20 @@ public class GenericsKbBSTApp {
                 System.out.println("\nStatement for term " + term + " has been updated.\n");
 
             } else if (menuInput.equals("3")) {
+                if (!knowledgeBaseLoaded) {
+                    System.out.println("\nKnowledge base has not been loaded yet.\n");
+                    continue; // Skip searching
+                }
                 System.out.print("Enter the term to search: ");
                 String searchTerm = keyboard.nextLine();
                 // Search for item in the knowledge base by term
                 bst.inOrder(); // Example: Print all statements, replace with search logic
 
             } else if (menuInput.equals("4")) {
+                if (!knowledgeBaseLoaded) {
+                    System.out.println("\nKnowledge base has not been loaded yet.\n");
+                    continue; // Skip searching
+                }
                 System.out.print("Enter the term: ");
                 String term = keyboard.nextLine();
                 System.out.print("Enter the statement to search for: ");
