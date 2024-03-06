@@ -24,6 +24,9 @@ class TreeNode {
 /**
  * Represents a binary search tree.
  */
+/**
+ * Represents a binary search tree.
+ */
 class BinarySearchTree {
     TreeNode root;
 
@@ -59,47 +62,49 @@ class BinarySearchTree {
     }
 
     /**
-     * Searches for a data in the binary search tree.
+     * Searches for a term in the binary search tree.
      * 
-     * @param data The data to be searched.
-     * @return true if the data is found, false otherwise.
+     * @param term The term to be searched.
+     * @return true if the term is found, false otherwise.
      */
-    public boolean search(String data) {
-        return searchRec(root, data);
+    public boolean search(String term) {
+        return searchRec(root, term);
     }
 
-    private boolean searchRec(TreeNode root, String data) {
+    private boolean searchRec(TreeNode root, String term) {
         if (root == null) {
             return false;
         }
 
-        if (root.data.equals(data)) {
+        if (root.data.startsWith(term)) { // Check if the term matches the start of the data
+            System.out.println(root.data); // Print the entire line
             return true;
         }
 
-        if (data.compareTo(root.data) < 0) {
-            return searchRec(root.left, data);
+        if (term.compareTo(root.data) < 0) {
+            return searchRec(root.left, term);
         }
 
-        return searchRec(root.right, data);
+        return searchRec(root.right, term);
     }
 
     /**
-     * Prints the data in the binary search tree in inorder traversal.
+     * Prints the terms in the binary search tree in inorder traversal.
      */
-    public void inOrder() {
-        inOrderRec(root);
+    public void inOrder(String term) {
+        inOrderRec(root, term);
     }
 
-    private void inOrderRec(TreeNode root) {
+    private void inOrderRec(TreeNode root, String term) {
         if (root != null) {
-            inOrderRec(root.left);
-            System.out.println("\n" + root.data + "\n");
-            inOrderRec(root.right);
+            inOrderRec(root.left, term);
+            if (root.data.startsWith(term)) {
+                System.out.println("\n"+root.data); // Print the entire line
+            }
+            inOrderRec(root.right, term);
         }
     }
 }
-
 /**
  * Main class to demonstrate the binary search tree application.
  */
@@ -119,7 +124,7 @@ public class GenericsKbBSTApp {
                 String line = fileScanner.nextLine();
                 bst.insert(line); // Assuming each line represents a statement in the knowledge base
             }
-            System.out.println("Knowledge base loaded successfully.");
+            System.out.println("\nKnowledge base loaded successfully.\n");
             knowledgeBaseLoaded = true;
             fileScanner.close();
         } catch (FileNotFoundException e) {
@@ -179,8 +184,8 @@ public class GenericsKbBSTApp {
                 System.out.print("Enter the term to search: ");
                 String searchTerm = keyboard.nextLine();
                 // Search for item in the knowledge base by term
-                bst.inOrder(); // Example: Print all statements, replace with search logic
-
+                bst.inOrder(searchTerm); // Example: Print all statements, replace with search logic
+                System.out.println("");
             } else if (menuInput.equals("4")) {
                 if (!knowledgeBaseLoaded) {
                     System.out.println("\nKnowledge base has not been loaded yet.\n");
@@ -191,7 +196,7 @@ public class GenericsKbBSTApp {
                 System.out.print("Enter the statement to search for: ");
                 String searchStatement = keyboard.nextLine();
                 // Search for item in the knowledge base by term and sentence
-                bst.inOrder(); // Example: Print all statements, replace with search logic
+                bst.inOrder(searchStatement); // Example: Print all statements, replace with search logic
             }
         }
 
