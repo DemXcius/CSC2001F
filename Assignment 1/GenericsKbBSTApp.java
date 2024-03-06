@@ -20,6 +20,7 @@ class TreeNode {
         left = right = null;
     }
 }
+
 /**
  * Represents a binary search tree.
  */
@@ -100,23 +101,23 @@ class BinarySearchTree {
 
     private boolean searchRecByTermAndSentence(TreeNode root, String term, String sentence) {
         if (root == null) {
-            System.out.println("\nTerm and statement: '" + term + "' and '" + sentence +"' not found.\n");
+            System.out.println("\nTerm and statement: '" + term + "' and '" + sentence + "' not found.\n");
             return false;
         }
-    
+
         String[] parts = root.data.split("\t");
         String termPart = parts[0]; // Extract the term part from the data
         String statementPart = parts[1]; // Extract the statement part from the data
-    
+
         if (termPart.equals(term) && statementPart.equals(sentence)) {
             System.out.println("\nStatement found: " + statementPart + " (Confidence score: " + parts[2] + ")\n");
             return true;
         }
-    
+
         if (term.compareTo(termPart) < 0) {
             return searchRecByTermAndSentence(root.left, term, sentence);
         }
-    
+
         return searchRecByTermAndSentence(root.right, term, sentence);
     }
 
@@ -129,7 +130,7 @@ class BinarySearchTree {
             System.out.println("Term '" + term + "' not found in the knowledge base.");
         }
     }
-    
+
     private boolean inOrderRec(TreeNode root, String term) {
         boolean found = false;
         if (root != null) {
@@ -145,6 +146,7 @@ class BinarySearchTree {
         return found;
     }
 }
+
 /**
  * Main class to demonstrate the binary search tree application.
  */
@@ -238,7 +240,8 @@ public class GenericsKbBSTApp {
                 System.out.print("Enter the statement to search for: ");
                 String searchStatement = keyboard.nextLine();
                 // Search for item in the knowledge base by term and sentence
-                bst.searchByTermAndSentence(term, searchStatement); // Example: Print all statements, replace with search logic
+                bst.searchByTermAndSentence(term, searchStatement); // Example: Print all statements, replace with
+                                                                    // search logic
             }
         }
 
