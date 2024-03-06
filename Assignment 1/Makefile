@@ -1,28 +1,29 @@
-# Java compiler
+# Compiler
 JC = javac
 
-# Java compiler flags
-JFLAGS = -g
+# Flags
+JFLAGS = -d bin -sourcepath src
 
-# Directory containing the source files
-SRC_DIR = src
+# Source files
+SOURCES := $(wildcard src/*.java)
 
-# Directory to place the compiled .class files
-BIN_DIR = bin
-
-# List of Java source files
-SRCS = $(wildcard $(SRC_DIR)/*.java)
-
-# List of compiled .class files
-CLASSES = $(SRCS:$(SRC_DIR)/%.java=$(BIN_DIR)/%.class)
+# Classes
+CLASSES := $(patsubst src/%.java, bin/%.class, $(SOURCES))
 
 # Default target
 all: $(CLASSES)
 
 # Compile Java source files
-$(BIN_DIR)/%.class: $(SRC_DIR)/%.java
-	$(JC) $(JFLAGS) -d $(BIN_DIR) $<
+bin/%.class: src/%.java
+	mkdir -p bin
+	$(JC) $(JFLAGS) $<
 
-# Clean the compiled files
+# Generate JavaDoc
+docs:
+	javadoc -d doc src/*.java
+
+# Clean
 clean:
-	rm -f $(BIN_DIR)/*.class
+	rm -rf bin/*.class
+
+.PHONY: all docs clean
