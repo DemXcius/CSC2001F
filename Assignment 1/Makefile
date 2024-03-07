@@ -1,5 +1,7 @@
-# Compiler
 JC = javac
+JVM = java
+MAINBST = GenericsKbBSTApp
+MAINARRAY = GenericsKbArrayApp
 
 # Flags
 JFLAGS = -d bin -sourcepath src
@@ -26,4 +28,12 @@ docs:
 clean:
 	rm -rf bin/*.class
 
-.PHONY: all docs clean
+# Run BST Version
+runBST: all
+	$(JVM) -classpath bin $(MAINBST)
+
+# Run Array Version
+runArray: all
+	$(JVM) -classpath bin $(MAINARRAY)
+
+.PHONY: all docs clean run
