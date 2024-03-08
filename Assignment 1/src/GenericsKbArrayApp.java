@@ -82,7 +82,7 @@ public class GenericsKbArrayApp {
             }
         }
         if (!found) {
-            System.out.println("Term not found in the knowledge base.");
+            System.out.println("Term '" + searchTerm + "' not found in the knowledge base.");
         }
     }
 
@@ -109,7 +109,7 @@ public class GenericsKbArrayApp {
             }
         }
         if (!found) {
-            System.out.println("Term and statement not found in the knowledge base.");
+            System.out.println("Term and statement: '" +searchTerm +"' and '" + searchStatement+ "' not found in the knowledge base.");
         }
     }
 
