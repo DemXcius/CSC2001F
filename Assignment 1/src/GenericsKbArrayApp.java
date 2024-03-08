@@ -70,14 +70,15 @@ public class GenericsKbArrayApp {
         }
         boolean found = false;
         for (String entry : arrFile) {
-            if (entry.contains(searchTerm)) {
-                String[] parts = entry.split("\t");
-                if (parts.length >= 3) {
-                    String statement = parts[1];
-                    String confidence = parts[2];
-                    System.out.println("\nStatement found: " + statement + " (Confidence score: " + confidence + ")\n");
-                    found = true;
-                }
+            String[] parts = entry.split("\t");
+            if (parts.length >= 3 && (parts[0].equals(searchTerm) || 
+            parts[0].startsWith(searchTerm + " ") || 
+            parts[0].endsWith(" " + searchTerm) || 
+            parts[0].contains(" " + searchTerm + " "))) {
+                String statement = parts[1];
+                String confidence = parts[2];
+                System.out.println("\nStatement found for " + parts[0] + ": " + statement + " (Confidence score: " + confidence + ")\n");
+                found = true;
             }
         }
         if (!found) {
@@ -99,14 +100,12 @@ public class GenericsKbArrayApp {
         }
         boolean found = false;
         for (String entry : arrFile) {
-            if (entry.contains(searchTerm) && entry.contains(searchStatement)) {
-                String[] parts = entry.split("\t");
-                if (parts.length >= 3) {
-                    String confidence = parts[2];
-                    System.out
-                            .println("\nThe statement was found and has a confidence score of  " + confidence + ".\n");
-                    found = true;
-                }
+            String[] parts = entry.split("\t");
+            if (parts.length >= 3 && parts[0].equals(searchTerm) && parts[1].equals(searchStatement)) {
+                String confidence = parts[2];
+                System.out.println("\nThe statement was found and has a confidence score of  " + confidence + ".\n");
+                found = true;
+                break; // No need to continue searching if found
             }
         }
         if (!found) {
