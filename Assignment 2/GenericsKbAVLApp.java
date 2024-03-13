@@ -149,6 +149,12 @@ class AVLTree {
 
     // Utility functions
 
+    /**
+     * Calculates the height of a node.
+     * 
+     * @param node The node to calculate the height for.
+     * @return The height of the node.
+     */
     private int height(AVLNode node) {
         if (node == null) {
             return 0;
@@ -156,6 +162,12 @@ class AVLTree {
         return node.height;
     }
 
+    /**
+     * Calculates the balance factor of a node.
+     * 
+     * @param node The node to calculate the balance factor for.
+     * @return The balance factor of the node.
+     */
     private int getBalance(AVLNode node) {
         if (node == null) {
             return 0;
@@ -163,6 +175,12 @@ class AVLTree {
         return height(node.left) - height(node.right);
     }
 
+    /**
+     * Performs a right rotation on a node.
+     * 
+     * @param y The node to perform the rotation on.
+     * @return The new root node after rotation.
+     */
     private AVLNode rightRotate(AVLNode y) {
         AVLNode x = y.left;
         AVLNode T2 = x.right;
@@ -179,6 +197,12 @@ class AVLTree {
         return x;
     }
 
+    /**
+     * Performs a left rotation on a node.
+     * 
+     * @param x The node to perform the rotation on.
+     * @return The new root node after rotation.
+     */
     private AVLNode leftRotate(AVLNode x) {
         AVLNode y = x.right;
         AVLNode T2 = y.left;
