@@ -103,23 +103,29 @@ class AVLTree {
      * @param term The term to be searched.
      * @return true if the term is found, false otherwise.
      */
-    public boolean inOrder(String term) {
-        return inOrderRec(root, term);
+    public boolean search(String term) {
+        return searchRec(root, term);
     }
-
-    private boolean inOrderRec(AVLNode node, String term) {
-        boolean found = false;
-        if (node != null) {
-            found |= inOrderRec(node.left, term);
-            String[] parts = node.data.split("\t");
-            String termPart = parts[0]; // Extract the term part from the data
-            searchOpCount++; // Increment search operation count
-            if (termPart.equals(term) || termPart.startsWith(term + " ")) {
-                found = true;
-            }
-            found |= inOrderRec(node.right, term);
+    
+    private boolean searchRec(AVLNode node, String term) {
+        searchOpCount++;
+        if (node == null) {
+            return false;
         }
-        return found;
+    
+        String[] parts = node.data.split("\t");
+        String termPart = parts[0]; // Extract the term part from the data
+    
+        if (termPart.equals(term) || termPart.startsWith(term + " ")) {
+            // Term found
+            return true;
+        } else if (term.compareTo(termPart) < 0) {
+            // Search left subtree
+            return searchRec(node.left, term);
+        } else {
+            // Search right subtree
+            return searchRec(node.right, term);
+        }
     }
 
     // Utility functions
@@ -278,7 +284,7 @@ public class GenericsKbAVLApp {
             while (fileScanner.hasNextLine()) {
                 String query = fileScanner.nextLine().trim();
                 System.out.println("Query: " + query);
-                boolean found = avl.inOrder(query); // Search for the query term
+                boolean found = avl.search(query); // Search for the query term
                 if (!found) {
                     System.out.println("Term not found: " + query);
                 }
