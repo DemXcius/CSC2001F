@@ -2,6 +2,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+
+
 /**
  * Represents a node in an AVL tree.
  */
@@ -13,7 +15,7 @@ class AVLNode {
 
     /**
      * Constructs an AVLNode with the given data.
-     * 
+     *
      * @param data The data to be stored in the node.
      */
     public AVLNode(String data) {
@@ -28,6 +30,8 @@ class AVLNode {
  */
 class AVLTree {
     AVLNode root;
+    private int searchOpCount = 0;
+    private int insertOpCount = 0;
 
     /**
      * Constructs an empty AVL tree.
@@ -38,7 +42,7 @@ class AVLTree {
 
     /**
      * Inserts a new data into the AVL tree.
-     * 
+     *
      * @param data The data to be inserted.
      */
     public void insert(String data) {
@@ -47,6 +51,7 @@ class AVLTree {
 
     private AVLNode insertRec(AVLNode node, String data) {
         if (node == null) {
+            insertOpCount++; // Increment insert operation count
             return new AVLNode(data);
         }
 
@@ -94,42 +99,12 @@ class AVLTree {
 
     /**
      * Searches for a term in the AVL tree.
-     * 
+     *
      * @param term The term to be searched.
      * @return true if the term is found, false otherwise.
      */
-    public boolean search(String term) {
-        return searchRec(root, term);
-    }
-
-    private boolean searchRec(AVLNode node, String term) {
-        if (node == null) {
-            return false;
-        }
-
-        String[] parts = node.data.split("\t");
-        String termPart = parts[0]; // Extract the term part from the data
-
-        if (termPart.equals(term) || termPart.startsWith(term + " ")) {
-            System.out.println(node.data); // Print the entire line
-            return true;
-        }
-
-        if (term.compareTo(termPart) < 0) {
-            return searchRec(node.left, term);
-        }
-
-        return searchRec(node.right, term);
-    }
-
-    /**
-     * Prints the terms in the AVL tree in inorder traversal.
-     */
-    public void inOrder(String term) {
-        boolean found = inOrderRec(root, term);
-        if (!found) {
-            System.out.println("Term '" + term + "' not found in the knowledge base.");
-        }
+    public boolean inOrder(String term) {
+        return inOrderRec(root, term);
     }
 
     private boolean inOrderRec(AVLNode node, String term) {
@@ -138,8 +113,8 @@ class AVLTree {
             found |= inOrderRec(node.left, term);
             String[] parts = node.data.split("\t");
             String termPart = parts[0]; // Extract the term part from the data
+            searchOpCount++; // Increment search operation count
             if (termPart.equals(term) || termPart.startsWith(term + " ")) {
-                System.out.println(node.data); // Print the entire line
                 found = true;
             }
             found |= inOrderRec(node.right, term);
@@ -151,7 +126,7 @@ class AVLTree {
 
     /**
      * Calculates the height of a node.
-     * 
+     *
      * @param node The node to calculate the height for.
      * @return The height of the node.
      */
@@ -164,7 +139,7 @@ class AVLTree {
 
     /**
      * Calculates the balance factor of a node.
-     * 
+     *
      * @param node The node to calculate the balance factor for.
      * @return The balance factor of the node.
      */
@@ -177,7 +152,7 @@ class AVLTree {
 
     /**
      * Performs a right rotation on a node.
-     * 
+     *
      * @param y The node to perform the rotation on.
      * @return The new root node after rotation.
      */
@@ -199,7 +174,7 @@ class AVLTree {
 
     /**
      * Performs a left rotation on a node.
-     * 
+     *
      * @param x The node to perform the rotation on.
      * @return The new root node after rotation.
      */
@@ -218,14 +193,55 @@ class AVLTree {
         // Return new root
         return y;
     }
+
+    // Getters for operation counts
+    public int getSearchOpCount() {
+        return searchOpCount;
+    }
+
+    public int getInsertOpCount() {
+        return insertOpCount;
+    }
 }
+
 
 /**
  * Main class to demonstrate the AVL tree application.
  */
 public class GenericsKbAVLApp {
     private static AVLTree avl;
-    private static boolean knowledgeBaseLoaded = false;
+ 
+
+
+    /**
+     * Main method to run the AVL tree application.
+     * 
+     * @param args The command line arguments.
+     */
+    public static void main(String[] args) {
+        avl = new AVLTree();
+
+        // Prompt user for knowledge base filename
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the filename of the knowledge base: ");
+        String knowledgeBaseFile = scanner.nextLine();
+
+        // Prompt user for query filename
+        System.out.print("Enter the filename of the query file: ");
+        String queryFile = scanner.nextLine();
+
+        scanner.close();
+
+        // Load knowledge base from file
+        loadKnowledgeBase(knowledgeBaseFile);
+
+        // Perform searches based on queries
+        searchQueries(queryFile);
+
+        // Print operation counts
+        System.out.println("Search Operations: " + avl.getSearchOpCount());
+        System.out.println("Insert Operations: " + avl.getInsertOpCount());
+    }
 
     /**
      * Loads the knowledge base from the specified file.
@@ -237,10 +253,14 @@ public class GenericsKbAVLApp {
             Scanner fileScanner = new Scanner(new File(fileName));
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
-                avl.insert(line); // Assuming each line represents a statement in the knowledge base
+                // Assuming each line represents a statement in the knowledge base
+                String[] parts = line.split("\t");
+                if (parts.length == 3) { // Ensure there are three parts (term, sentence, confidence score)
+                    String term = parts[0];
+                    avl.insert(line);
+                }
             }
             System.out.println("\nKnowledge base loaded successfully.\n");
-            knowledgeBaseLoaded = true;
             fileScanner.close();
         } catch (FileNotFoundException e) {
             System.out.println("\nFile not found: " + fileName + "\n");
@@ -248,76 +268,26 @@ public class GenericsKbAVLApp {
     }
 
     /**
-     * Main method to run the AVL tree application.
+     * Perform searches based on queries from the specified file.
      * 
-     * @param args The command line arguments.
+     * @param fileName The name of the file containing the queries.
      */
-    public static void main(String[] args) {
-        avl = new AVLTree();
-        Scanner keyboard = new Scanner(System.in);
-
-        String menuInput = "";
-
-        while (!menuInput.equals("5")) {
-            String menu = "Choose an action from the menu:\r\n" + //
-                    "1. Load a knowledge base from a file\r\n" + //
-                    "2. Add a new statement to the knowledge base\r\n" + //
-                    "3. Search for an item in the knowledge base by term\r\n" + //
-                    "4. Search for a item in the knowledge base by term and sentence\r\n" + //
-                    "5. Quit\r\n\n" + //
-                    "Enter your choice: ";
-            System.out.print(menu);
-            menuInput = keyboard.nextLine().trim();
-
-            if (menuInput.equals("1")) {
-                System.out.print("Enter file name: ");
-                String dataInput = keyboard.nextLine();
-                // Load knowledge base from file (if needed)
-                loadKnowledgeBase(dataInput);
-
-            } else if (menuInput.equals("2")) {
-                if (!knowledgeBaseLoaded) {
-                    System.out.println("\nKnowledge base has not been loaded yet.\n");
-                    continue; // Skip adding the new element
+    private static void searchQueries(String fileName) {
+        try {
+            Scanner fileScanner = new Scanner(new File(fileName));
+            while (fileScanner.hasNextLine()) {
+                String query = fileScanner.nextLine().trim();
+                System.out.println("Query: " + query);
+                boolean found = avl.inOrder(query); // Search for the query term
+                if (!found) {
+                    System.out.println("Term not found: " + query);
                 }
-                System.out.print("Enter the term: ");
-                String term = keyboard.nextLine();
-                System.out.print("Enter the statement: ");
-                String statement = keyboard.nextLine();
-                System.out.print("Enter the confidence score: ");
-                String confidence = keyboard.nextLine();
-                String newElement = term + "\t" + statement + "\t" + confidence;
-                // Add new statement to the AVL tree
-                avl.insert(newElement);
-                System.out.println("\nStatement for term " + term + " has been updated.\n");
-
-            } else if (menuInput.equals("3")) {
-                if (!knowledgeBaseLoaded) {
-                    System.out.println("\nKnowledge base has not been loaded yet.\n");
-                    continue; // Skip searching
-                }
-                System.out.print("Enter the term to search: ");
-                String searchTerm = keyboard.nextLine();
-                System.out.println("");
-                // Search for item in the knowledge base by term
-                avl.inOrder(searchTerm); // Example: Print all statements, replace with search logic
-                System.out.println("");
-
-            } else if (menuInput.equals("4")) {
-                if (!knowledgeBaseLoaded) {
-                    System.out.println("\nKnowledge base has not been loaded yet.\n");
-                    continue; // Skip searching
-                }
-                System.out.print("Enter the term: ");
-                String term = keyboard.nextLine();
-                System.out.print("Enter the statement to search for: ");
-                String searchStatement = keyboard.nextLine();
-                // Search for item in the knowledge base by term and sentence
-                // avl.searchByTermAndSentence(term, searchStatement); // Example: Print all statements, replace with
-                                                                    // search logic
+                System.out.println();
             }
+            fileScanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("\nFile not found: " + fileName + "\n");
         }
-
-        keyboard.close();
     }
+
 }
