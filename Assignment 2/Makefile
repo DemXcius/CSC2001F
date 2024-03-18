@@ -3,7 +3,7 @@ JVM = java
 MAIN = GenericsKbAVLApp
 
 # Flags
-JFLAGS = -d bin -sourcepath src
+JFLAGS = -d bin
 
 # Source files
 SOURCES := $(wildcard src/*.java)
@@ -16,19 +16,14 @@ all: $(CLASSES)
 
 # Compile Java source files
 bin/%.class: src/%.java
-	mkdir -p bin
 	$(JC) $(JFLAGS) $<
 
-# Generate JavaDoc
-docs:
-	javadoc -d doc src/*.java
-
-# Clean
-clean:
-	rm -rf bin/*.class
-
-# Run BST Version
+# Run
 run: all
 	$(JVM) -classpath bin $(MAIN)
 
-.PHONY: all docs clean run
+# Clean
+clean:
+	rm -rf bin/*
+
+.PHONY: all run clean
