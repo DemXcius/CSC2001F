@@ -6,8 +6,6 @@ import java.util.Scanner;
 
 public class AVLVisual {
 
-    
-
     public static void visualize(AVLTree tree, String filename) {
         StringBuilder dot = new StringBuilder();
         dot.append("digraph AVLTree {\n");

@@ -38,6 +38,49 @@ public class AVLTree {
      */
     public void insert(String data) {
         root = insertRec(root, data);
+        if (!isBalanced(root)) {
+            root = balance(root);
+            // Perform balancing operation if the tree is not balanced after insertion
+            // You can implement AVL tree balancing here
+        }
+    }
+
+    /**
+     * Balances the AVL tree starting from the given node.
+     *
+     * @param node The node to start the balancing from.
+     * @return The new root of the balanced subtree.
+     */
+    private AVLNode balance(AVLNode node) {
+        if (node == null) {
+            return null;
+        }
+
+        // Left subtree is heavier
+        if (getBalance(node) > 1) {
+            // Left-Left case
+            if (getBalance(node.left) >= 0) {
+                return rightRotate(node);
+            }
+            // Left-Right case
+            else {
+                node.left = leftRotate(node.left);
+                return rightRotate(node);
+            }
+        }
+        // Right subtree is heavier
+        else if (getBalance(node) < -1) {
+            // Right-Right case
+            if (getBalance(node.right) <= 0) {
+                return leftRotate(node);
+            }
+            // Right-Left case
+            else {
+                node.right = rightRotate(node.right);
+                return leftRotate(node);
+            }
+        }
+        return node; // Node is already balanced
     }
 
     private AVLNode insertRec(AVLNode node, String data) {
@@ -103,10 +146,10 @@ public class AVLTree {
         if (node == null) {
             return false;
         }
-    
+
         String[] parts = node.data.split("\t");
         String termPart = parts[0]; // Extract the term part from the data
-    
+
         int comparisonResult = term.compareTo(termPart);
         if (comparisonResult == 0) {
             searchOpCount++; // Increment the count for equality comparison
@@ -146,6 +189,11 @@ public class AVLTree {
             return 0;
         }
         return height(node.left) - height(node.right);
+    }
+
+    private boolean isBalanced(AVLNode node) {
+        int balanceFactor = getBalance(node);
+        return balanceFactor >= -1 && balanceFactor <= 1;
     }
 
     /**
@@ -200,8 +248,9 @@ public class AVLTree {
     public int getInsertOpCount() {
         return insertOpCount;
     }
+
     public void resetSearchOpCount() {
         searchOpCount = 0;
     }
-    
+
 }
