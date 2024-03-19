@@ -2,6 +2,7 @@ JC = javac
 JVM = java
 MAIN_AVL = GenericsKbAVLApp
 MAIN_EXP = AVLExperiment
+MAIN_VISUAL = AVLVisual
 
 # Flags
 JFLAGS = -d bin -sourcepath src
@@ -29,6 +30,10 @@ run_avl: all
 # Run experiment
 run_exp: all
 	$(JVM) -classpath bin $(MAIN_EXP)
+
+#Run Visual
+run_visual: all
+	$(JVM) -classpath bin $(MAIN_VISUAL)
 
 # Clean
 clean:

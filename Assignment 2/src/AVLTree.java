@@ -100,23 +100,22 @@ public class AVLTree {
     }
 
     private boolean searchRec(AVLNode node, String term) {
-        
         if (node == null) {
             return false;
         }
-        searchOpCount++;
-
+    
         String[] parts = node.data.split("\t");
         String termPart = parts[0]; // Extract the term part from the data
-
-        if (termPart.equals(term) || termPart.startsWith(term + " ")) {
-            // Term found
+    
+        int comparisonResult = term.compareTo(termPart);
+        if (comparisonResult == 0) {
+            searchOpCount++; // Increment the count for equality comparison
             return true;
-        } else if (term.compareTo(termPart) < 0) {
-            // Search left subtree
+        } else if (comparisonResult < 0) {
+            searchOpCount++; // Increment the count for less-than comparison
             return searchRec(node.left, term);
         } else {
-            // Search right subtree
+            searchOpCount++; // Increment the count for greater-than comparison
             return searchRec(node.right, term);
         }
     }
@@ -201,4 +200,8 @@ public class AVLTree {
     public int getInsertOpCount() {
         return insertOpCount;
     }
+    public void resetSearchOpCount() {
+        searchOpCount = 0;
+    }
+    
 }
