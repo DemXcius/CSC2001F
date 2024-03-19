@@ -2,8 +2,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-
-
 /**
  * Represents a node in an AVL tree.
  */
@@ -67,7 +65,8 @@ class AVLTree {
         // Update height of this ancestor node
         node.height = 1 + Math.max(height(node.left), height(node.right));
 
-        // Get the balance factor of this ancestor node to check whether it became unbalanced
+        // Get the balance factor of this ancestor node to check whether it became
+        // unbalanced
         int balance = getBalance(node);
 
         // If this node becomes unbalanced, then there are 4 cases
@@ -106,16 +105,16 @@ class AVLTree {
     public boolean search(String term) {
         return searchRec(root, term);
     }
-    
+
     private boolean searchRec(AVLNode node, String term) {
         searchOpCount++;
         if (node == null) {
             return false;
         }
-    
+
         String[] parts = node.data.split("\t");
         String termPart = parts[0]; // Extract the term part from the data
-    
+
         if (termPart.equals(term) || termPart.startsWith(term + " ")) {
             // Term found
             return true;
@@ -210,14 +209,11 @@ class AVLTree {
     }
 }
 
-
 /**
  * Main class to demonstrate the AVL tree application.
  */
 public class GenericsKbAVLApp {
     private static AVLTree avl;
- 
-
 
     /**
      * Main method to run the AVL tree application.
