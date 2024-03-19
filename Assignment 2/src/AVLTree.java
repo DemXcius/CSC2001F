@@ -1,3 +1,6 @@
+/**
+ * Represents a node in an AVL tree.
+ */
 class AVLNode {
     String data;
     AVLNode left;
@@ -56,25 +59,30 @@ public class AVLTree {
             return null;
         }
 
+        // Calculate the balance factor for the current node
+        int balanceFactor = getBalance(node);
+
         // Left subtree is heavier
-        if (getBalance(node) > 1) {
-            // Left-Left case
-            if (getBalance(node.left) >= 0) {
+        if (balanceFactor > 1) {
+            // Left-Left case: Perform right rotation on the current node
+            if (height(node.left.left) >= height(node.left.right)) {
                 return rightRotate(node);
             }
-            // Left-Right case
+            // Left-Right case: Perform left rotation on the left child followed by right
+            // rotation on the current node
             else {
                 node.left = leftRotate(node.left);
                 return rightRotate(node);
             }
         }
         // Right subtree is heavier
-        else if (getBalance(node) < -1) {
-            // Right-Right case
-            if (getBalance(node.right) <= 0) {
+        else if (balanceFactor < -1) {
+            // Right-Right case: Perform left rotation on the current node
+            if (height(node.right.right) >= height(node.right.left)) {
                 return leftRotate(node);
             }
-            // Right-Left case
+            // Right-Left case: Perform right rotation on the right child followed by left
+            // rotation on the current node
             else {
                 node.right = rightRotate(node.right);
                 return leftRotate(node);

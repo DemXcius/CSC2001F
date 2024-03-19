@@ -2,9 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-/**
- * Represents a node in an AVL tree.
- */
+
 
 /**
  * Main class to demonstrate the AVL tree application.
