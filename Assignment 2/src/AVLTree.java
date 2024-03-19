@@ -100,10 +100,11 @@ public class AVLTree {
     }
 
     private boolean searchRec(AVLNode node, String term) {
-        searchOpCount++;
+        
         if (node == null) {
             return false;
         }
+        searchOpCount++;
 
         String[] parts = node.data.split("\t");
         String termPart = parts[0]; // Extract the term part from the data

@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class AVLExperiment {
     private static final int[] datasetSizes = {10, 100, 1000, 10000, 100000}; // Dataset sizes
     private static final int numQueries = 10; // Number of queries
-    private static final String queryFile = "GenericsKB_queries.txt"; // Query file
+    private static final String queryFile = "GenericsKB-queries.txt"; // Query file
 
     public static void main(String[] args) {
         try {
@@ -42,17 +42,17 @@ public class AVLExperiment {
                         while (scanner.hasNextLine()) {
                             String query = scanner.nextLine().trim();
                             avl.search(query);
-                            searchOpCount += 1;
+                            
                         }
                         scanner.close();
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
-
+                    searchOpCount = avl.getSearchOpCount();
                     insertOpCounts.add(insertOpCount);
                     searchOpCounts.add(searchOpCount);
                 }
-
+                
                 // Calculate min, max, and average of operation counts
                 int minInsertOpCount = insertOpCounts.stream().min(Integer::compareTo).orElse(0);
                 int maxInsertOpCount = insertOpCounts.stream().max(Integer::compareTo).orElse(0);
