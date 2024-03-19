@@ -1,29 +1,37 @@
 JC = javac
 JVM = java
-MAIN = GenericsKbAVLApp
+MAIN_AVL = GenericsKbAVLApp
+MAIN_EXP = AVLExperiment
 
 # Flags
-JFLAGS = -d bin
+JFLAGS = -d bin -sourcepath src
 
 # Source files
 SOURCES := $(wildcard src/*.java)
 
 # Classes
-CLASSES := $(patsubst src/%.java, bin/%.class, $(SOURCES))
+CLASSES := $(SOURCES:src/%.java=bin/%.class)
 
 # Default target
 all: $(CLASSES)
 
 # Compile Java source files
-bin/%.class: src/%.java
+bin/%.class: src/%.java | bin
 	$(JC) $(JFLAGS) $<
 
-# Run
-run: all
-	$(JVM) -classpath bin $(MAIN)
+bin:
+	mkdir -p bin
+
+# Run AVL application
+run_avl: all
+	$(JVM) -classpath bin $(MAIN_AVL)
+
+# Run experiment
+run_exp: all
+	$(JVM) -classpath bin $(MAIN_EXP)
 
 # Clean
 clean:
-	rm -rf bin/*
+	rm -rf bin
 
-.PHONY: all run clean
+.PHONY: all run_avl run_exp clean

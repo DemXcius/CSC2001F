@@ -62,7 +62,7 @@ public class AVLExperiment {
 
     private static List<String> generateRandomSubset(int size) {
         List<String> subset = new ArrayList<>();
-        List<String> dataset = readDatasetFromFile("dataset.txt");
+        List<String> dataset = readDatasetFromFile("GenericsKB-queries.txt");
         Random random = new Random();
         for (int i = 0; i < size; i++) {
             int index = random.nextInt(dataset.size());
