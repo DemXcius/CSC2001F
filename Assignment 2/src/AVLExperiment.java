@@ -46,7 +46,7 @@ public class AVLExperiment {
                             String query = scanner.nextLine().trim();
                             boolean found = avl.search(query);
                             if (found) {
-                                searchOpCount += avl.getSearchOpCount(); // Add current search count
+                                searchOpCount = avl.getSearchOpCount(); // Add current search count
                             }
                             // Reset search operation count for the next iteration
                             avl.resetSearchOpCount();
