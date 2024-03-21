@@ -8,8 +8,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class AVLExperiment {
-    private static final int[] datasetSizes = { 10, 100, 1000, 10000, 100000 }; // Dataset sizes
-    private static final int numQueries = 10; // Number of queries
+    private static final int[] datasetSizes = {4,10,16,64,256,1024,4096,16384,65536,100000}; // Dataset sizes
     private static final String queryFile = "GenericsKB-queries.txt"; // Query file
 
     public static void main(String[] args) {
