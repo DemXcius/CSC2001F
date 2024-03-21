@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class AVLExperiment {
-    private static final int[] datasetSizes = {4,10,16,64,256,1024,4096,16384,65536,100000}; // Dataset sizes
+    public static final int[] datasetSizes = { 4, 10, 16, 64, 256, 1024, 4096, 16384, 65536, 100000 }; // Dataset sizes
     private static final String queryFile = "GenericsKB-queries.txt"; // Query file
 
     public static void main(String[] args) {
@@ -69,6 +69,8 @@ public class AVLExperiment {
                 // Write experiment results to file
                 writer.write(String.format("%d\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n", size, minInsertOpCount,
                         maxInsertOpCount, avgInsertOpCount, minSearchOpCount, maxSearchOpCount, avgSearchOpCount));
+                toExcel(size, minInsertOpCount, maxInsertOpCount, avgInsertOpCount, minSearchOpCount, maxSearchOpCount,
+                        avgSearchOpCount);
             }
 
             writer.close();
@@ -76,6 +78,7 @@ public class AVLExperiment {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     private static List<String> readDatasetFromFile(String fileName) {
@@ -100,5 +103,22 @@ public class AVLExperiment {
             subset.add(dataset.get(index));
         }
         return subset;
+    }
+
+    public static void toExcel(int size, int minInsertOpCount, int maxInsertOpCount,
+            int avgInsertOpCount, int minSearchOpCount, int maxSearchOpCount,
+            int avgSearchOpCount) {
+        String csvFile = "output.csv";
+        try (FileWriter writer = new FileWriter(csvFile, true)) { // Set append flag to true
+            if (new File(csvFile).length() == 0) { // Check if file is empty
+                writer.append("Dataset Size,Insert Min,Insert Max,Insert Avg,Search Min,Search Max,Search Avg\n");
+            }
+            writer.append(size + "," + minInsertOpCount + "," + maxInsertOpCount + "," + avgInsertOpCount + ","
+                    + minSearchOpCount + "," + maxSearchOpCount + "," + avgSearchOpCount + "\n");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("CSV file updated successfully.");
     }
 }
