@@ -23,6 +23,10 @@ bin/%.class: src/%.java | bin
 bin:
 	mkdir -p bin
 
+# Generate JavaDoc
+docs:
+	javadoc -d doc src/*.java
+
 # Run AVL application
 run_avl: all
 	$(JVM) -classpath bin $(MAIN_AVL)

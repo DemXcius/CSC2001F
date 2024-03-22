@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"<Unnamed>","l":"AVLExperiment"},{"p":"<Unnamed>","l":"GenericsKbAVLApp"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"<Unnamed>","l":"AVLExperiment"},{"p":"<Unnamed>","l":"AVLTree"},{"p":"<Unnamed>","l":"AVLVisual"},{"p":"<Unnamed>","l":"GenericsKbAVLApp"}];updateSearchResults();
