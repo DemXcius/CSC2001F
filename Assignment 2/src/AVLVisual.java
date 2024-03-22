@@ -40,7 +40,7 @@ public class AVLVisual {
     public static void main(String[] args) {
         AVLTree avl = new AVLTree();
 
-        // Load terms from GenericsKB.txt and insert into AVL tree
+        // Load terms from text file and insert into AVL tree
         loadTerms(avl, "queries.txt");
 
         // Visualize AVL tree

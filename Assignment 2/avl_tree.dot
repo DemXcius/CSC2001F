@@ -1,0 +1,11 @@
+digraph AVLTree {
+"maser" -> "concentration";
+"concentration" -> "alcoholic cirrhosis";
+"alcoholic cirrhosis" -> "competitor";
+"concentration" -> "diaphragm";
+"maser" -> "onion ring";
+"onion ring" -> "nemertean worm";
+"nemertean worm" -> "medical receptionist";
+"onion ring" -> "soft drink";
+"soft drink" -> "wild garlic";
+}

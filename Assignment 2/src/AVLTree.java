@@ -44,7 +44,6 @@ public class AVLTree {
         if (!isBalanced(root)) {
             root = balance(root);
             // Perform balancing operation if the tree is not balanced after insertion
-            // You can implement AVL tree balancing here
         }
     }
 
@@ -157,10 +156,11 @@ public class AVLTree {
 
         String[] parts = node.data.split("\t");
         String termPart = parts[0]; // Extract the term part from the data
-
+        String statementPart = parts[1];
         int comparisonResult = term.compareTo(termPart);
         if (comparisonResult == 0) {
             searchOpCount++; // Increment the count for equality comparison
+            System.out.println(parts[0]+": "+ parts[1]);
             return true;
         } else if (comparisonResult < 0) {
             searchOpCount++; // Increment the count for less-than comparison
@@ -260,5 +260,4 @@ public class AVLTree {
     public void resetSearchOpCount() {
         searchOpCount = 0;
     }
-
 }
