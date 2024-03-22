@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /**
  * @author Chris Scheepers
- * Class for conducting experiments with AVL trees.
+ *         Class for conducting experiments with AVL trees.
  */
 public class AVLExperiment {
     /** Array of dataset sizes for experiments. */
@@ -51,7 +51,7 @@ public class AVLExperiment {
                     }
 
                     // Perform searches and record operation counts
-                    
+
                     int searchOpCount = 0;
                     try {
                         Scanner scanner = new Scanner(new File(queryFile));
@@ -135,13 +135,13 @@ public class AVLExperiment {
     /**
      * Writes experiment results to a CSV file.
      * 
-     * @param size              The dataset size.
-     * @param minInsertOpCount  The minimum insertion operation count.
-     * @param maxInsertOpCount  The maximum insertion operation count.
-     * @param avgInsertOpCount  The average insertion operation count.
-     * @param minSearchOpCount  The minimum search operation count.
-     * @param maxSearchOpCount  The maximum search operation count.
-     * @param avgSearchOpCount  The average search operation count.
+     * @param size             The dataset size.
+     * @param minInsertOpCount The minimum insertion operation count.
+     * @param maxInsertOpCount The maximum insertion operation count.
+     * @param avgInsertOpCount The average insertion operation count.
+     * @param minSearchOpCount The minimum search operation count.
+     * @param maxSearchOpCount The maximum search operation count.
+     * @param avgSearchOpCount The average search operation count.
      */
     public static void toExcel(int size, int minInsertOpCount, int maxInsertOpCount, int avgInsertOpCount,
             int minSearchOpCount, int maxSearchOpCount, int avgSearchOpCount) {
@@ -149,7 +149,7 @@ public class AVLExperiment {
         try (FileWriter writer = new FileWriter(csvFile, true)) { // Set append flag to true
             if (new
 
-File(csvFile).length() == 0) { // Check if file is empty
+            File(csvFile).length() == 0) { // Check if file is empty
                 writer.append("Dataset Size,Insert Min,Insert Max,Insert Avg,Search Min,Search Max,Search Avg\n");
             }
             writer.append(size + "," + minInsertOpCount + "," + maxInsertOpCount + "," + avgInsertOpCount + ","

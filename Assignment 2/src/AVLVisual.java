@@ -6,7 +6,8 @@ import java.util.Scanner;
 
 /**
  * @author Chris Scheepers
- * Class for visualizing an AVL tree by generating a DOT file representation.
+ *         Class for visualizing an AVL tree by generating a DOT file
+ *         representation.
  */
 public class AVLVisual {
 

@@ -1,3 +1,39 @@
+commit b96f5634a7fa43fa875f17591467c23cd23b3b9e
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Fri Mar 22 19:30:00 2024 +0200
+
+    Fixed insertions counter and formatted document
+
+commit 407f0cfacd52e4a83c7e6551e39b2557584afe27
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Fri Mar 22 19:19:40 2024 +0200
+
+    Fixed the insert counter.
+
+commit 3411671e8421acd5a69642a64f35b3f1d72f80ed
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Fri Mar 22 19:06:32 2024 +0200
+
+    Formatting.
+
+commit 4c3db5413795c8d0c4783de5d8ce5a5fc291b932
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Fri Mar 22 18:01:33 2024 +0200
+
+    changed dataset size
+
+commit 17c3e439c4234390e95bfbfd1af815ada68ed08e
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Fri Mar 22 16:38:17 2024 +0200
+
+    generated docs // end of file
+
+commit 82c30d5c93bc71209936f17d56a72f0691e87fb6
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Fri Mar 22 16:34:50 2024 +0200
+
+    added a git log / end of file
+
 commit b81621589428ddba7a3a30907d3d2d0b463a8af1
 Author: skippy <schchr077@myuct.ac.za>
 Date:   Fri Mar 22 16:30:30 2024 +0200
@@ -122,4 +158,178 @@ commit eeb1159db8fece44b427a443581c75caf1b4f369
 Author: skippy <schchr077@myuct.ac.za>
 Date:   Wed Mar 13 11:28:17 2024 +0200
 
-    //Beginning of file
+    Beginning of file
+
+commit f6e810dff2d64bf829d01e7fb2886e5693764e36
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Fri Mar 8 12:09:24 2024 +0200
+
+    Added Assignment PDF and created a tarfile of Assignment 1
+
+commit f85d85ff1bd84048a182aca78649140555da03e6
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Fri Mar 8 10:06:20 2024 +0200
+
+    formatting changes
+
+commit 5c43a62f2689df86cfe8cc59b60dbea0af0ffd52
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Fri Mar 8 09:58:29 2024 +0200
+
+    Fixed search by term in the array app (was getting partial matches)
+
+commit c5d0d636d66e27869ee663ab12c11d4b156a7a89
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Thu Mar 7 09:21:21 2024 +0200
+
+    Finished coding the makefile. Added different run commands for the Array and BST version of the app.
+
+commit 633cb20c6cafb887041930199282e463634c24a7
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Wed Mar 6 13:05:26 2024 +0200
+
+    Got rid of redundant files
+
+commit 90ca886426ea0b9ccc277608e8927b228feb83fd
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Wed Mar 6 12:58:53 2024 +0200
+
+    Fixed Git issues, finished the Makefile and added a Javadoc
+
+commit f2407b933786c419f3b41c8a3aaca5568762b8e5
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Wed Mar 6 12:42:34 2024 +0200
+
+    Added a Makefile
+
+commit fa7cef004ec58fd3134534fa4dd7729275f95829
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Wed Mar 6 12:06:03 2024 +0200
+
+    Made Makefile
+
+commit 621ffc8da04a32ea437ed52b25a5188916a20a71
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Wed Mar 6 11:58:58 2024 +0200
+
+    Formatting changes
+
+commit 62061b4d08c4fae943ef1b21e78aa09af349bea0
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Wed Mar 6 11:51:55 2024 +0200
+
+    Added error messages and formatted output messages.
+
+commit 0abec3420c81e78e88145a91b80453885e5cf644
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Wed Mar 6 11:22:21 2024 +0200
+
+    Updated Option 4 Functionality
+
+commit 3346d5518ed4b49859c1e11ffc17a145aece6e21
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Wed Mar 6 11:13:05 2024 +0200
+
+    Function 3(search) complete for BST
+
+commit b9572953c3ef0aa6772d56c5477ffbd493b8b1b7
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Wed Mar 6 10:58:57 2024 +0200
+
+    updated functionality of the search in the BST app
+
+commit 0177292f9d7b2b1419bf93eb8a01706db31da076
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Wed Mar 6 10:36:53 2024 +0200
+
+    BST wasn't loading a knowledge base, now it does
+
+commit 084d8626000a68fce6ff715dab7b8b245b3d7215
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Tue Mar 5 09:35:17 2024 +0200
+
+    Formatting commits
+
+commit c9caded6f883a178d9210d1f66e969adccd997dd
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Tue Mar 5 09:33:58 2024 +0200
+
+    Added comments and a javadoc to the Array app
+
+commit 512ba671ec756b30d4c8fe4ac7e0f857c84a363f
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Tue Mar 5 09:30:00 2024 +0200
+
+    Added comments and a Javadoc for the BST version of App
+
+commit 9d18eefe463012aa8a791a36cf66898b9426d9a2
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Mon Mar 4 17:50:51 2024 +0200
+
+    Implemented a BST
+
+commit 2e4bf1768866af5beca781a3eea25dbcd55c5e53
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Mon Mar 4 17:32:29 2024 +0200
+
+    n/a
+
+commit c4cd5957b4a95bd375674cf85e7e9846870104e8
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Mon Mar 4 17:28:55 2024 +0200
+
+    Completed the option 1-5 completely and added quality of life improvements.
+
+commit 83df21eef941a7399dc2a0c91a225d0e1974e845
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Mon Mar 4 16:22:04 2024 +0200
+
+    Option 4 functionality complete (Search by Term and Statement)
+
+commit 047cc636e817dafdd7bd3c15b284a17e53b9677d
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Sun Mar 3 22:39:13 2024 +0200
+
+    Finished option 3 functionality (Search Generics)
+
+commit 9c2a4ce75b624cfdcc73c619fc8dfa973af05af9
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Sun Mar 3 22:22:26 2024 +0200
+
+    finished array appendage functionality
+
+commit 034f10e7b53773e5d86dca0fe3bd81390618c7a9
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Sun Mar 3 22:01:12 2024 +0200
+
+    Added functionality to Option 1 and 2 for the Generics search
+
+commit fc41fb3a0176c30b8e1eda1106e9641528ed002b
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Sun Mar 3 21:31:00 2024 +0200
+
+    Added scanner functionality
+
+commit 7ad548bb6273a68ae4844c59320b706ba3b91b51
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Sun Mar 3 21:15:52 2024 +0200
+
+    Array contains all lines from text file
+
+commit be78c7cd290c35547d39d9a82be17f3ce9e6cae2
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Sun Mar 3 21:09:02 2024 +0200
+
+    Method to get text file size is created
+
+commit 577b20cb4ff7897dd8a35b97486312fbeb13bdef
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Sun Mar 3 20:51:05 2024 +0200
+
+    Changed File Name and added main argument
+
+commit fa7ce5316d19db10405a9bc7dfc2633ead791f38
+Author: skippy <schchr077@myuct.ac.za>
+Date:   Sun Mar 3 20:43:52 2024 +0200
+
+    //beginning of file
