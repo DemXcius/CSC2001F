@@ -4,8 +4,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * @author Chris Scheepers
+ * Class for visualizing an AVL tree by generating a DOT file representation.
+ */
 public class AVLVisual {
 
+    /**
+     * Generates a DOT representation of the AVL tree and writes it to a file.
+     * 
+     * @param tree     The AVL tree to visualize.
+     * @param filename The name of the DOT file to write.
+     */
     public static void visualize(AVLTree tree, String filename) {
         StringBuilder dot = new StringBuilder();
         dot.append("digraph AVLTree {\n");
@@ -24,6 +34,12 @@ public class AVLVisual {
         }
     }
 
+    /**
+     * Recursively builds the DOT representation of the AVL tree.
+     * 
+     * @param node The current node being processed.
+     * @param dot  The StringBuilder to append DOT representation to.
+     */
     private static void buildDot(AVLNode node, StringBuilder dot) {
         if (node != null) {
             if (node.left != null) {
@@ -37,6 +53,11 @@ public class AVLVisual {
         }
     }
 
+    /**
+     * Main method to load terms from a file and visualize the AVL tree.
+     * 
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) {
         AVLTree avl = new AVLTree();
 
@@ -47,6 +68,12 @@ public class AVLVisual {
         visualize(avl, "avl_tree.dot");
     }
 
+    /**
+     * Loads terms from a text file and inserts them into the AVL tree.
+     * 
+     * @param avl      The AVL tree to insert terms into.
+     * @param fileName The name of the file containing the terms.
+     */
     private static void loadTerms(AVLTree avl, String fileName) {
         try {
             Scanner scanner = new Scanner(new File(fileName));

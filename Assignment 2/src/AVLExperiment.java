@@ -7,10 +7,22 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * @author Chris Scheepers
+ * Class for conducting experiments with AVL trees.
+ */
 public class AVLExperiment {
-    public static final int[] datasetSizes = { 4, 10, 16, 64, 256, 1024, 4096, 16384, 65536, 100000 }; // Dataset sizes
-    private static final String queryFile = "GenericsKB-queries.txt"; // Query file
+    /** Array of dataset sizes for experiments. */
+    public static final int[] datasetSizes = { 4, 10, 16, 64, 256, 1024, 4096, 16384, 65536, 100000 };
 
+    /** Filename for query file. */
+    private static final String queryFile = "GenericsKB-queries.txt";
+
+    /**
+     * Main method to run the AVL tree experiment.
+     * 
+     * @param args The command line arguments.
+     */
     public static void main(String[] args) {
         try {
             FileWriter writer = new FileWriter("experiment_results.txt");
@@ -81,6 +93,12 @@ public class AVLExperiment {
 
     }
 
+    /**
+     * Reads dataset from a file.
+     * 
+     * @param fileName The name of the file containing the dataset.
+     * @return The list of strings representing the dataset.
+     */
     private static List<String> readDatasetFromFile(String fileName) {
         List<String> dataset = new ArrayList<>();
         try {
@@ -95,6 +113,13 @@ public class AVLExperiment {
         return dataset;
     }
 
+    /**
+     * Generates a random subset of a dataset.
+     * 
+     * @param size    The size of the subset.
+     * @param dataset The dataset from which to generate the subset.
+     * @return The randomly generated subset.
+     */
     private static List<String> generateRandomSubset(int size, List<String> dataset) {
         List<String> subset = new ArrayList<>();
         Random random = new Random();
@@ -105,12 +130,24 @@ public class AVLExperiment {
         return subset;
     }
 
-    public static void toExcel(int size, int minInsertOpCount, int maxInsertOpCount,
-            int avgInsertOpCount, int minSearchOpCount, int maxSearchOpCount,
-            int avgSearchOpCount) {
+    /**
+     * Writes experiment results to a CSV file.
+     * 
+     * @param size              The dataset size.
+     * @param minInsertOpCount  The minimum insertion operation count.
+     * @param maxInsertOpCount  The maximum insertion operation count.
+     * @param avgInsertOpCount  The average insertion operation count.
+     * @param minSearchOpCount  The minimum search operation count.
+     * @param maxSearchOpCount  The maximum search operation count.
+     * @param avgSearchOpCount  The average search operation count.
+     */
+    public static void toExcel(int size, int minInsertOpCount, int maxInsertOpCount, int avgInsertOpCount,
+            int minSearchOpCount, int maxSearchOpCount, int avgSearchOpCount) {
         String csvFile = "output.csv";
         try (FileWriter writer = new FileWriter(csvFile, true)) { // Set append flag to true
-            if (new File(csvFile).length() == 0) { // Check if file is empty
+            if (new
+
+File(csvFile).length() == 0) { // Check if file is empty
                 writer.append("Dataset Size,Insert Min,Insert Max,Insert Avg,Search Min,Search Max,Search Avg\n");
             }
             writer.append(size + "," + minInsertOpCount + "," + maxInsertOpCount + "," + avgInsertOpCount + ","

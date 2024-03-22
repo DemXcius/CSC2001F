@@ -1,4 +1,5 @@
 /**
+ * @author Chris Scheepers
  * Represents a node in an AVL tree.
  */
 class AVLNode {

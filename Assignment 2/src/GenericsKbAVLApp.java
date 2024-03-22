@@ -2,9 +2,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-
-
 /**
+ * @author Chris Scheepers
  * Main class to demonstrate the AVL tree application.
  */
 public class GenericsKbAVLApp {
