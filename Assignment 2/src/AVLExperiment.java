@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class AVLExperiment {
     /** Array of dataset sizes for experiments. */
-    public static final int[] datasetSizes = { 4, 10, 16, 64, 256, 1024, 4096, 16384, 65536, 100000 };
+    public static final int[] datasetSizes = { 3, 10, 33, 100, 333, 1000, 3333, 10000, 33333, 50000 };
 
     /** Filename for query file. */
     private static final String queryFile = "GenericsKB-queries.txt";
