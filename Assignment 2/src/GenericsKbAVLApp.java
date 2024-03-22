@@ -52,7 +52,6 @@ public class GenericsKbAVLApp {
                 // Assuming each line represents a statement in the knowledge base
                 String[] parts = line.split("\t");
                 if (parts.length == 3) { // Ensure there are three parts (term, sentence, confidence score)
-                    String term = parts[0];
                     avl.insert(line);
                 }
             }

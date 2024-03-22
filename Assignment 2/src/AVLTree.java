@@ -157,7 +157,6 @@ public class AVLTree {
 
         String[] parts = node.data.split("\t");
         String termPart = parts[0]; // Extract the term part from the data
-        String statementPart = parts[1];
         int comparisonResult = term.compareTo(termPart);
         if (comparisonResult == 0) {
             searchOpCount++; // Increment the count for equality comparison
