@@ -98,8 +98,10 @@ public class AVLTree {
         }
 
         if (data.compareTo(node.data) < 0) {
+            insertOpCount++;
             node.left = insertRec(node.left, data);
         } else if (data.compareTo(node.data) > 0) {
+            insertOpCount++;
             node.right = insertRec(node.right, data);
         } else {
             // Duplicate data not allowed
@@ -259,5 +261,9 @@ public class AVLTree {
 
     public void resetSearchOpCount() {
         searchOpCount = 0;
+    }
+
+    public void resetInsertOpCount() {
+        insertOpCount = 0;
     }
 }

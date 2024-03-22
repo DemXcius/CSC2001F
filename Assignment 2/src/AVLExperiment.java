@@ -42,14 +42,16 @@ public class AVLExperiment {
                 for (int i = 0; i < 10; i++) {
                     AVLTree avl = new AVLTree();
                     List<String> subset = generateRandomSubset(size, dataset);
-
+                    int insertOpCount = 0;
                     // Load data into AVL tree
                     for (String item : subset) {
                         avl.insert(item);
+                        insertOpCount = avl.getInsertOpCount();
+                        avl.resetInsertOpCount();
                     }
 
                     // Perform searches and record operation counts
-                    int insertOpCount = avl.getInsertOpCount();
+                    
                     int searchOpCount = 0;
                     try {
                         Scanner scanner = new Scanner(new File(queryFile));
