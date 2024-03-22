@@ -302,13 +302,13 @@ commit 82c30d5c93bc71209936f17d56a72f0691e87fb6
 Author: skippy <schchr077@myuct.ac.za>
 Date:   Fri Mar 22 16:34:50 2024 +0200
 
-    added a git log / end of file
+    added a git log 
 
 commit 17c3e439c4234390e95bfbfd1af815ada68ed08e
 Author: skippy <schchr077@myuct.ac.za>
 Date:   Fri Mar 22 16:38:17 2024 +0200
 
-    generated docs // end of file
+    generated docs 
 
 commit 4c3db5413795c8d0c4783de5d8ce5a5fc291b932
 Author: skippy <schchr077@myuct.ac.za>
