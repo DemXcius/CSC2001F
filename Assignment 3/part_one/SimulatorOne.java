@@ -1,30 +1,26 @@
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.*; 
+import java.util.Scanner;
+import java.util.*;
 
 class SimulatorOne {
     private static Graph graph = new Graph();
 
     public static void main(String[] args) {
-        try {
-            FileReader fileReader = new FileReader("input.txt"); // Assuming input file name is input.txt
-            Scanner scanner = new Scanner(fileReader);
+        Scanner scanner = new Scanner(System.in);
 
-            // Read graph data
-            readGraphData(scanner);
+        // Read graph data
+        readGraphData(scanner);
 
-            // Read client calls and simulate taxi service
-            simulateTaxiService(scanner);
+        // Read client calls and simulate taxi service
+        simulateTaxiService(scanner);
 
-            scanner.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        scanner.close();
     }
 
     private static void readGraphData(Scanner scanner) {
+        System.out.println("Enter the number of nodes:");
         int numberOfNodes = Integer.parseInt(scanner.nextLine().trim());
         for (int i = 0; i < numberOfNodes; i++) {
+            System.out.println("Enter source node and its adjacent nodes (destination node followed by weight, separated by space):");
             String[] parts = scanner.nextLine().trim().split("\\s+");
             String sourceNode = parts[0];
             for (int j = 1; j < parts.length; j += 2) {
@@ -34,8 +30,10 @@ class SimulatorOne {
             }
         }
 
+        System.out.println("Enter the number of shops:");
         int numberOfShops = Integer.parseInt(scanner.nextLine().trim());
         for (int i = 0; i < numberOfShops; i++) {
+            System.out.println("Enter shop node:");
             String shopNode = scanner.nextLine().trim();
             // Add shop nodes to the graph (assuming they are not already present)
             graph.getVertex(shopNode);
@@ -43,8 +41,10 @@ class SimulatorOne {
     }
 
     private static void simulateTaxiService(Scanner scanner) {
+        System.out.println("Enter the number of clients:");
         int numberOfClients = Integer.parseInt(scanner.nextLine().trim());
         for (int i = 0; i < numberOfClients; i++) {
+            System.out.println("Enter client node:");
             String clientNode = scanner.nextLine().trim();
             // Find the nearest taxi and the nearest shop for this client
             processClientCall(clientNode);
