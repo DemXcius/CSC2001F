@@ -25,11 +25,10 @@ class SimulatorOne {
             System.out.println("Enter node data (sourceNode destNode1 weight1 destNode2 weight2 ...):");
             String[] parts = scanner.nextLine().trim().split("\\s+");
             String sourceNode = parts[0];
-            for (int j = 1; j < parts.length; j += 3) {
+            for (int j = 1; j < parts.length; j += 2) {
                 String destNode = parts[j];
                 double weight = Double.parseDouble(parts[j + 1]);
-                String edgeLabel = parts[j + 2];
-                graph.addEdge(sourceNode, destNode, weight, edgeLabel);
+                graph.addEdge(sourceNode, destNode, weight);
             }
         }
     }
@@ -57,7 +56,7 @@ class SimulatorOne {
     // Method to process a client call
     private static void processClientCall(String clientNode, String shopNode) {
         // Find the nearest taxi for this client
-        graph.dijkstra(clientNode, shopNode);
+        graph.dijkstra(clientNode);
 
         // Output results, passing shop node information
         outputResults(clientNode, shopNode);
@@ -77,7 +76,7 @@ class SimulatorOne {
         List<String> shopDetails = outputShopDetails(clientVertex, shopNode);
     
         // Output details only if the client can be helped
-        if (!taxiDetails.isEmpty() || !shopDetails.isEmpty() || numberOfShops != 0) {
+        if (!taxiDetails.isEmpty() || !shopDetails.isEmpty() ||numberOfShops ==0) {
             for (String details : taxiDetails) {
                 System.out.println(details);
             }
@@ -101,9 +100,8 @@ class SimulatorOne {
                 List<String> pathNodes = new ArrayList<>();
                 Vertex currentVertex = vertex;
                 while (currentVertex != null) {
-                    currentVertex = currentVertex.prev;
                     pathNodes.add(currentVertex.name);
-                    
+                    currentVertex = currentVertex.prev;
                 }
                 taxiDetails.add("taxi " + vertex.name + "\n" + String.join(" ", pathNodes));
             }
@@ -134,89 +132,4 @@ class SimulatorOne {
         return shopDetails;
     }
     
-}
-
-class Graph {
-    private Map<String, Vertex> vertexMap;
-
-    public Graph() {
-        vertexMap = new HashMap<>();
-    }
-
-    public Map<String, Vertex> getVertexMap() {
-        return vertexMap;
-    }
-
-    public void addEdge(String sourceNode, String destNode, double weight, String edgeLabel) {
-        if (!vertexMap.containsKey(sourceNode)) {
-            vertexMap.put(sourceNode, new Vertex(sourceNode));
-        }
-        if (!vertexMap.containsKey(destNode)) {
-            vertexMap.put(destNode, new Vertex(destNode));
-        }
-        Vertex source = vertexMap.get(sourceNode);
-        Vertex dest = vertexMap.get(destNode);
-        source.addNeighbor(dest, weight, edgeLabel); // Adding weighted edge
-    }
-
-    public void dijkstra(String startNode, String destinationNode) {
-        PriorityQueue<Vertex> priorityQueue = new PriorityQueue<>();
-        Vertex startVertex = vertexMap.get(startNode);
-        startVertex.minDistance = 0;
-        priorityQueue.add(startVertex);
-
-        while (!priorityQueue.isEmpty()) {
-            Vertex currentVertex = priorityQueue.poll();
-
-            for (Edge edge : currentVertex.adjacencies) {
-                Vertex neighbor = edge.target;
-                double weight = edge.weight;
-                double distanceThroughCurrent = currentVertex.minDistance + weight;
-
-                if (distanceThroughCurrent < neighbor.minDistance) {
-                    priorityQueue.remove(neighbor);
-                    neighbor.minDistance = distanceThroughCurrent;
-                    neighbor.prev = currentVertex;
-                    priorityQueue.add(neighbor);
-                }
-            }
-        }
-
-        // Setting destination vertex
-        vertexMap.get(destinationNode).prev = vertexMap.get(startNode);
-    }
-    public Vertex getVertex(String nodeName) {
-        return vertexMap.get(nodeName);
-    }
-}
-class Vertex implements Comparable<Vertex> {
-    public final String name;
-    public List<Edge> adjacencies;
-    public double minDistance = Double.POSITIVE_INFINITY;
-    public Vertex prev;
-
-    public Vertex(String argName) {
-        name = argName;
-        adjacencies = new ArrayList<>();
-    }
-
-    public void addNeighbor(Vertex neighbor, double weight, String edgeLabel) {
-        adjacencies.add(new Edge(neighbor, weight, edgeLabel));
-    }
-
-    public int compareTo(Vertex other) {
-        return Double.compare(minDistance, other.minDistance);
-    }
-}
-
-class Edge {
-    public final Vertex target;
-    public final double weight;
-    public final String label;
-
-    public Edge(Vertex argTarget, double argWeight, String argLabel) {
-        target = argTarget;
-        weight = argWeight;
-        label = argLabel;
-    }
 }
