@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Graphs;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -121,8 +120,9 @@ public class Graph
      * Driver routine to handle unreachables and print total cost.
      * It calls recursive routine to print shortest path to
      * destNode after a shortest path algorithm has run.
+     * @param outputBuilder 
      */
-    public void printPath( String destName )
+    public void printPath( String destName, StringBuilder outputBuilder )
     {
         Vertex w = vertexMap.get( destName );
         if( w == null )
@@ -141,7 +141,7 @@ public class Graph
      * If vertexName is not present, add it to vertexMap.
      * In either case, return the Vertex.
      */
-    private Vertex getVertex( String vertexName )
+    public Vertex getVertex( String vertexName )
     {
         Vertex v = vertexMap.get( vertexName );
         if( v == null )
@@ -211,8 +211,9 @@ public class Graph
     /**
      * Single-source weighted shortest-path algorithm. (Dijkstra) 
      * using priority queues based on the binary heap
+     * @param invalidPaths 
      */
-    public void dijkstra( String startName )
+    public void dijkstra( String startName, String[][] invalidPaths )
     {
         PriorityQueue<Path> pq = new PriorityQueue<Path>( );
 
@@ -347,7 +348,7 @@ public class Graph
     /**
      * Process a request; return false if end of file.
      */
-    public static boolean processRequest( Scanner in, Graph g )
+    public static boolean processRequest( Scanner in, Graph g, String[][] invalidPaths, StringBuilder outputBuilder )
     {
         try
         {
@@ -364,15 +365,15 @@ public class Graph
                 g.unweighted( startName );
             else if( alg.equals( "d" ) )    
             {
-                g.dijkstra( startName );
-                g.printPath( destName );
+                g.dijkstra( startName, invalidPaths );
+                g.printPath( destName, outputBuilder );
             }
             else if( alg.equals( "n" ) )
                 g.negative( startName );
             else if( alg.equals( "a" ) )
                 g.acyclic( startName );
                     
-            g.printPath( destName );
+            g.printPath( destName, outputBuilder );
         }
         catch( NoSuchElementException e )
           { return false; }
@@ -390,13 +391,14 @@ public class Graph
      * The data file is a sequence of lines of the format
      *    source destination cost
      */
-    public static void main( String [ ] args )
+/*public static void main( String [ ] args )
     {
         Graph g = new Graph( );
         try
         {   	
             //FileReader fin = new FileReader(args[0]);
         	FileReader fin = new FileReader("Graph1.txt");
+            @SuppressWarnings("resource")
             Scanner graphFile = new Scanner( fin );
 
             // Read the edges and insert
@@ -429,7 +431,7 @@ public class Graph
          System.out.println( g.vertexMap.size( ) + " vertices" );
 
          Scanner in = new Scanner( System.in );
-         while( processRequest( in, g ) )
+         while( processRequest( in, g, invalidPaths, outputBuilder ) )
              ;
-    }
+    }*/
 }
