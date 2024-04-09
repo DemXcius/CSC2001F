@@ -1,222 +1,480 @@
-import java.util.*;
+import java.util.Scanner;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-class SimulatorOne {
-    static int numberOfShops;
-    private static Graph graph = new Graph();
+public class SimulatorOne {
+
+    /**
+ * OptimalTripFormatter class is responsible for formatting trip information for clients and shops.
+ */
+public static class OptimalTripFormatter {
+
+    /**
+     * Comparator for sorting paths from taxi to client based on their starting node.
+     */
+    private static class TaxiToClientPathComparator implements Comparator<PathAndCost> {
+        @Override
+        public int compare(PathAndCost obj1, PathAndCost obj2) {
+            return obj1.path[0].compareTo(obj2.path[0]);
+        }
+    }
+
+    /**
+     * Comparator for sorting paths from client to shop based on their destination node.
+     */
+    private static class ClientToShopPathComparator implements Comparator<PathAndCost> {
+        @Override
+        public int compare(PathAndCost obj1, PathAndCost obj2) {
+            return obj1.path[obj1.path.length - 1].compareTo(obj2.path[obj2.path.length - 1]);
+        }
+    }
+
+    /**
+     * Format the trip information for a given client.
+     * @param clientNode The client node.
+     * @param pathsToClient Array of paths from taxis to the client.
+     * @param pathsToShop Array of paths from the client to shops.
+     * @return Formatted trip information.
+     */
+    public static String format(String clientNode, PathAndCost[] pathsToClient, PathAndCost[] pathsToShop) {
+        StringBuilder result = new StringBuilder("client " + clientNode + "\n");
+
+        if (pathsToClient.length == 0 || pathsToShop.length == 0) {
+            OptimalTripFormatter.appendClientUnhelpable(clientNode, result);
+            return result.toString();
+        }
+
+        OptimalTripFormatter.appendTaxiResult(pathsToClient, result);
+        OptimalTripFormatter.appendShopResult(pathsToShop, result);
+
+        return result.toString().trim();
+    }
+
+    /**
+     * Append a message for an unhelpable client.
+     * @param clientNode The client node.
+     * @param result StringBuilder to append the message.
+     */
+    private static void appendClientUnhelpable(String clientNode, StringBuilder result) {
+        result.append("cannot be helped\n");
+    }
+
+    /**
+     * Append the formatted result for taxi trips.
+     * @param pathsToClient Array of paths from taxis to the client.
+     * @param result StringBuilder to append the formatted result.
+     */
+    private static void appendTaxiResult(PathAndCost[] pathsToClient, StringBuilder result) {
+        Arrays.sort(pathsToClient, new TaxiToClientPathComparator());
+        int i, j;
+        String currentTaxi, laterTaxi, path;
+        double cost;
+        for (i = 0; i < pathsToClient.length;) {
+            currentTaxi = first(pathsToClient[i].path);
+            for (j = i + 1; j < pathsToClient.length; j++) {
+                laterTaxi = first(pathsToClient[j].path);
+                if (!currentTaxi.equals(laterTaxi)) {
+                    break;
+                }
+            }
+            result.append("taxi " + currentTaxi + "\n");
+            if (j - i == 1) {
+                // Single optimal route starting at a certain point
+                path = String.join(" ", pathsToClient[i].path);
+                result.append(path + "\n");
+            } else {
+                // Multiple optimal routes starting from a certain point
+                cost = pathsToClient[i].cost;
+                result.append("multiple solutions cost " + Long.toString((long)cost) + "\n");
+            }
+            i = j;
+        }
+    }
+
+    /**
+     * Append the formatted result for shop trips.
+     * @param pathsToShop Array of paths from the client to shops.
+     * @param result StringBuilder to append the formatted result.
+     */
+    private static void appendShopResult(PathAndCost[] pathsToShop, StringBuilder result) {
+        Arrays.sort(pathsToShop, new ClientToShopPathComparator());
+        int i, j;
+        String currentShop, laterShop, path;
+        double cost;
+        for (i = 0; i < pathsToShop.length;) {
+            currentShop = last(pathsToShop[i].path);
+            for (j = i + 1; j < pathsToShop.length; j++) {
+                laterShop = last(pathsToShop[j].path);
+                if (!currentShop.equals(laterShop)) {
+                    break;
+                }
+            }
+            result.append("shop " + currentShop + "\n");
+            if (j - i == 1) {
+                // Single optimal route starting at a certain point
+                path = String.join(" ", pathsToShop[i].path);
+                result.append(path + "\n");
+            } else {
+                // Multiple optimal routes starting from a certain point
+                cost = pathsToShop[i].cost;
+                result.append("multiple solutions cost " + Long.toString((long)cost) + "\n");
+            }
+            i = j;
+        }
+    }
+
+    /**
+     * Get the first element of an array.
+     * @param array The input array.
+     * @return The first element of the array.
+     */
+    private static String first(String[] array) {
+        return array[0];
+    }
+
+    /**
+     * Get the last element of an array.
+     * @param array The input array.
+     * @return The last element of the array.
+     */
+    private static String last(String[] array) {
+        return array[array.length - 1];
+    }
+
+}
+
+/**
+ * PathAndCost class represents a path and its associated cost.
+ */
+public static class PathAndCost {
+    public String[] path; // Array representing the path nodes.
+    public double cost;   // Cost associated with the path.
+    public String destination; // Destination node of the path.
+    public boolean isReachable; // Indicates if the destination is reachable.
+
+    /**
+     * Default constructor.
+     */
+    public PathAndCost() {
+    }
+
+    /**
+     * Constructor with path and cost parameters.
+     * @param path Array representing the path nodes.
+     * @param cost Cost associated with the path.
+     */
+    public PathAndCost(String[] path, double cost) {
+        this.path = path;
+        this.cost = cost;
+        this.destination = path[path.length - 1];
+        this.isReachable = true;
+    }
+
+    /**
+     * Constructor for unreachable destinations.
+     * @param isReachable Indicates if the destination is reachable (should be false).
+     * @param destination Destination node.
+     * @throws IllegalArgumentException if used for reachable destinations.
+     */
+    public PathAndCost(boolean isReachable, String destination) {
+        if (!isReachable) {
+            throw new IllegalArgumentException("Constructor can only be used for unreachable destinations.");
+        }
+        this.path = null;
+        this.cost = Double.POSITIVE_INFINITY;
+        this.destination = destination;
+        this.isReachable = false;
+    }
+
+    /**
+     * Convert PathAndCost object to a string representation.
+     * @return String representation of the object.
+     */
+    public String toString() {
+        if (isReachable) {
+            return "(Cost is: " + Double.toString(this.cost) + ") " + String.join(" to ", this.path);
+        } else {
+            return this.destination + " is unreachable";
+        }
+    }
+}
+
+    public static class TripManager {
+
+        // Instance variables
+        public Graph graph;
+        private List<String> clientNodes;
+        private List<String> shopNodes;
+
+        // Constructor
+        public TripManager(String graphData) {
+            this.clientNodes = new ArrayList<>();
+            this.shopNodes = new ArrayList<>();
+            this.populateGraph(graphData);
+        }
+
+        // Method to populate the graph based on input data
+        private void populateGraph(String data) {
+            this.graph = new Graph();
+            String[] lines = data.split("\n");
+            LineInstruction instruction = LineInstruction.SET_NUMBER_OF_NODES;
+            int nodes = 0;
+            Scanner scanner;
+            String line;
+            for (int i = 0; i < lines.length; i++) {
+                line = lines[i];
+                scanner = new Scanner(line);
+                switch (instruction) {
+                    case SET_NUMBER_OF_NODES:
+                        nodes = scanner.nextInt();
+                        instruction = LineInstruction.ADD_EDGES;
+                        break;
+                    case ADD_EDGES:
+                        this.addVerticesAndEdges(line);
+                        instruction = i == nodes ? LineInstruction.SET_NUMBER_OF_SHOPS : LineInstruction.ADD_EDGES;
+                        break;
+                    case SET_NUMBER_OF_SHOPS:
+                        // I don't need the number of shops
+                        instruction = LineInstruction.ADD_SHOPS;
+                        break;
+                    case ADD_SHOPS:
+                        this.addShops(line);
+                        instruction = LineInstruction.SET_NUMBER_OF_CLIENTS;
+                        break;
+                    case SET_NUMBER_OF_CLIENTS:
+                        // I don't need the number of shops
+                        instruction = LineInstruction.ADD_CLIENTS;
+                        break;
+                    case ADD_CLIENTS:
+                        this.addClients(line);
+                        instruction = LineInstruction.END;
+                        break;
+                    default: // instruction = LineInstruction.END
+                        break;
+                }
+            }
+        }
+
+        // Method to add vertices and edges to the graph
+        private void addVerticesAndEdges(String data) {
+            try (Scanner scanner = new Scanner(data)) {
+                String source = scanner.next();
+                String destination;
+                double cost;
+                this.addNode(source);
+                while (scanner.hasNext()) {
+                    destination = scanner.next();
+                    cost = scanner.nextDouble();
+                    this.addEdge(source, destination, cost);
+                }
+            }
+        }
+
+        // Method to add a node to the graph
+        private void addNode(String node) {
+            // if vertex exists, nothing happens
+            // if it doesn't, it gets created
+            this.graph.getVertex(node);
+        }
+
+        // Method to add an edge to the graph
+        private void addEdge(String source, String destination, double cost) {
+            this.graph.addEdge(source, destination, cost);
+        }
+
+        // Method to add shops to the list of shops
+        private void addShops(String data) {
+            String[] nodes = data.split(" ");
+            for (String node : nodes) {
+                this.addShop(node);
+            }
+        }
+
+        // Method to add a shop to the list of shops
+        private void addShop(String node) {
+            this.shopNodes.add(node);
+        }
+
+        // Method to add clients to the list of clients
+        private void addClients(String data) {
+            String[] nodes = data.split(" ");
+            for (String node : nodes) {
+                this.addClient(node);
+            }
+        }
+
+        // Method to add a client to the list of clients
+        private void addClient(String node) {
+            this.clientNodes.add(node);
+        }
+
+        // Method to get optimal paths from start to end node
+        public PathAndCost[] getOptimalPaths(String start, String end) {
+            List<PathAndCost> optimals = new ArrayList<>();
+            PathAndCost optimal = null;
+            double minCostFound = Double.MAX_VALUE;
+
+            while (true) {
+                String[][] invalidPaths = getPaths(optimals);
+                String pathOutput = getOptimalPathOutput(start, end, invalidPaths);
+                if (!TripManager.nodeIsReachable(pathOutput)) {
+                    break;
+                }
+                String[] path = TripManager.extractPath(pathOutput);
+                double cost = TripManager.extractCost(pathOutput);
+                optimal = new PathAndCost(path, cost);
+                if (optimal.cost <= minCostFound) {
+                    minCostFound = optimal.cost;
+                    optimals.add(optimal);
+                } else {
+                    break;
+                }
+            }
+
+            if (optimals.isEmpty()) {
+                return new PathAndCost[0];
+            } else {
+                return optimals.toArray(new PathAndCost[optimals.size()]);
+            }
+        }
+
+        // Method to get paths from previous optimal paths
+        private String[][] getPaths(List<PathAndCost> pathAndCosts) {
+            String[][] result = new String[pathAndCosts.size()][];
+            for (int i = 0; i < pathAndCosts.size(); i++) {
+                result[i] = pathAndCosts.get(i).path;
+            }
+            return result;
+        }
+
+        // Method to get optimal path output
+        private String getOptimalPathOutput(String start, String end, String[][] invalidPaths) {
+            this.graph.dijkstra(start, invalidPaths);
+            StringBuilder outputBuilder = new StringBuilder();
+            this.graph.printPath(end, outputBuilder);
+            return outputBuilder.toString();
+        }
+
+        // Method to extract path from path output
+        private static String[] extractPath(String pathOutput) {
+            int indexOfCloseBrackets = pathOutput.indexOf(')', 0);
+            String pathWithTo = pathOutput.trim().substring(indexOfCloseBrackets + 2);
+            String[] path = pathWithTo.split(" to ");
+            return path;
+        }
+
+        // Method to extract cost from path output
+        private static double extractCost(String pathOutput) {
+            String regex = "\\d+\\.\\d+";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(pathOutput);
+            if (matcher.find()) {
+                String costString = matcher.group();
+                return Double.parseDouble(costString);
+            } else {
+                return 0.0;
+            }
+        }
+
+        // Method to check if node is reachable
+        private static boolean nodeIsReachable(String pathOutput) {
+            return !pathOutput.contains("unreachable");
+        }
+
+        // Method to get client nodes
+        public String[] clientNodes() {
+            return this.clientNodes.toArray(new String[this.clientNodes.size()]);
+        }
+
+        // Method to get shop nodes
+        public String[] shopNodes() {
+            return this.shopNodes.toArray(new String[this.shopNodes.size()]);
+        }
+
+        // Method to get optimal paths to shop
+        public PathAndCost[] getOptimalPathsToShop(String node) {
+            ArrayList<PathAndCost> optimals = new ArrayList<>();
+            for (String shopNode : this.shopNodes()) {
+                PathAndCost[] optimalsToShop = this.getOptimalPaths(node, shopNode);
+                if (optimalsToShop.length == 0) { // no valid paths
+                    continue;
+                }
+                if (!optimals.isEmpty() && optimals.get(0).cost > optimalsToShop[0].cost) {
+                    optimals.clear();
+                }
+                if (optimals.isEmpty() || optimals.get(0).cost == optimalsToShop[0].cost) {
+                    for (PathAndCost optimalToShop : optimalsToShop) {
+                        optimals.add(optimalToShop);
+                    }
+                }
+            }
+            return optimals.toArray(new PathAndCost[optimals.size()]);
+        }
+
+        // Method to get optimal paths to client
+        public PathAndCost[] getOptimalPathsToClient(String node) {
+            ArrayList<PathAndCost> optimals = new ArrayList<>();
+            for (String shopNode : this.shopNodes()) {
+                PathAndCost[] optimalsToClient = this.getOptimalPaths(shopNode, node);
+                if (optimalsToClient.length == 0) { // no valid paths
+                    continue;
+                }
+                if (!optimals.isEmpty() && optimals.get(0).cost > optimalsToClient[0].cost) {
+                    optimals.clear();
+                }
+                if (optimals.isEmpty() || optimals.get(0).cost >= optimalsToClient[0].cost) {
+                    for (PathAndCost optimalToClient : optimalsToClient) {
+                        optimals.add(optimalToClient);
+                    }
+                }
+            }
+            return optimals.toArray(new PathAndCost[optimals.size()]);
+        }
+
+    }
+
+    public static enum LineInstruction {
+        SET_NUMBER_OF_NODES,
+        ADD_EDGES,
+        SET_NUMBER_OF_SHOPS,
+        ADD_SHOPS,
+        SET_NUMBER_OF_CLIENTS,
+        ADD_CLIENTS,
+        END
+    }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        // Read graph data
-        readGraphData(scanner);
-
-        // Read client calls and simulate taxi service
-        simulateTaxiService(scanner);
-
-        scanner.close();
-    }
-
-    // Method to read graph data
-    private static void readGraphData(Scanner scanner) {
-        // Read number of nodes
-        System.out.println("Enter the number of nodes:");
-        int numberOfNodes = Integer.parseInt(scanner.nextLine().trim());
-        for (int i = 0; i < numberOfNodes; i++) {
-            System.out.println("Enter node data (sourceNode destNode1 weight1 destNode2 weight2 ...):");
-            String[] parts = scanner.nextLine().trim().split("\\s+");
-            String sourceNode = parts[0];
-            for (int j = 1; j < parts.length; j += 3) {
-                String destNode = parts[j];
-                double weight = Double.parseDouble(parts[j + 1]);
-                String edgeLabel = parts[j + 2];
-                graph.addEdge(sourceNode, destNode, weight, edgeLabel);
-            }
-        }
-    }
-
-    // Method to simulate taxi service
-    private static void simulateTaxiService(Scanner scanner) {
-        // Read number of shops
-        System.out.println("Enter the number of shops:");
-        numberOfShops = Integer.parseInt(scanner.nextLine().trim());
-        System.out.println("Enter shop node:");
-        String[] shopNode = scanner.nextLine().trim().split("\\s+");
+        // Read input from the file
+        String input = readFromSystemIn();
         
-        // Read number of clients
-        System.out.println("Enter number of clients:");
-        int numberOfClients = Integer.parseInt(scanner.nextLine().trim());
-        System.out.println("Enter client node:");
-        String[] clientNode = scanner.nextLine().trim().split("\\s+");
+        // Create a TripManager object with the input data
+        TripManager tripManager = new TripManager(input);
         
-        // Process each client call
-        for (int i = 0; i < numberOfClients; i++) {
-            processClientCall(clientNode[i], shopNode[i]);
+        // Iterate over client nodes
+        for (String clientNode : tripManager.clientNodes()) {
+            // Get optimal paths to client and shop for each client node
+            PathAndCost[] optimalsToClient = tripManager.getOptimalPathsToClient(clientNode);
+            PathAndCost[] optimalsToShop = tripManager.getOptimalPathsToShop(clientNode);
+            
+            // Format and print the optimal trip information using OptimalTripFormatter
+            System.out.println(OptimalTripFormatter.format(clientNode, optimalsToClient, optimalsToShop));
         }
     }
-
-    // Method to process a client call
-    private static void processClientCall(String clientNode, String shopNode) {
-        // Find the nearest taxi for this client
-        graph.dijkstra(clientNode, shopNode);
-
-        // Output results, passing shop node information
-        outputResults(clientNode, shopNode);
-    }
-
-    // Method to output results
-    private static void outputResults(String clientNode, String shopNode) {
-        Vertex clientVertex = graph.getVertex(clientNode);
     
-        // Output client information
-        System.out.println("client " + clientNode);
-    
-        // Output taxi details
-        List<String> taxiDetails = outputTaxiDetails(clientVertex);
-    
-        // Output shop details
-        List<String> shopDetails = outputShopDetails(clientVertex, shopNode);
-    
-        // Output details only if the client can be helped
-        if (!taxiDetails.isEmpty() || !shopDetails.isEmpty() || numberOfShops != 0) {
-            for (String details : taxiDetails) {
-                System.out.println(details);
-            }
-            for (String details : shopDetails) {
-                System.out.println(details);
-            }
-        } else {
-            System.out.println("cannot be helped");
+    // Method to read input from the standard input
+    private static String readFromSystemIn() {
+        @SuppressWarnings("resource")
+        Scanner scanner = new Scanner(System.in); // Create a scanner to read from standard input
+        StringBuilder inputBuilder = new StringBuilder(); // StringBuilder to store input lines
+        while (scanner.hasNextLine()) { // Continue reading until no more lines are available
+            String line = scanner.nextLine(); // Read the next line
+            inputBuilder.append(line).append("\n"); // Append the line to the StringBuilder
         }
-
+        return inputBuilder.toString(); // Return the accumulated input as a string
     }
 
-    // Method to output taxi details
-    private static List<String> outputTaxiDetails(Vertex clientVertex) {
-        List<String> taxiDetails = new ArrayList<>();
-        Collection<Vertex> allVertices = graph.getVertexMap().values();
-
-        // Output details of taxis with minimum cost
-        for (Vertex vertex : allVertices) {
-            if (vertex.prev != null) {
-                List<String> pathNodes = new ArrayList<>();
-                Vertex currentVertex = vertex;
-                while (currentVertex != null) {
-                    currentVertex = currentVertex.prev;
-                    pathNodes.add(currentVertex.name);
-                    
-                }
-                taxiDetails.add("taxi " + vertex.name + "\n" + String.join(" ", pathNodes));
-            }
-        }
-
-        return taxiDetails;
-    }
-
-    // Method to output shop details
-    private static List<String> outputShopDetails(Vertex clientVertex, String shopNode) {
-        List<String> shopDetails = new ArrayList<>();
-        Vertex shopVertex = graph.getVertex(shopNode);
-    
-        // Check if there is a path from the client to the shop
-        if (shopVertex.prev != null) {
-            // Find the shortest path from the client to the shop
-            List<String> pathNodes = new ArrayList<>();
-            Vertex currentVertex = clientVertex;
-            while (currentVertex != null) {
-                pathNodes.add(currentVertex.name);
-                currentVertex = currentVertex.prev;
-            }
-    
-            // Add the path to the shop details
-            shopDetails.add("shop " + shopNode + "\n" + String.join(" ", pathNodes) + ' ' + shopNode);
-        }
-    
-        return shopDetails;
-    }
-    
-}
-
-class Graph {
-    private Map<String, Vertex> vertexMap;
-
-    public Graph() {
-        vertexMap = new HashMap<>();
-    }
-
-    public Map<String, Vertex> getVertexMap() {
-        return vertexMap;
-    }
-
-    public void addEdge(String sourceNode, String destNode, double weight, String edgeLabel) {
-        if (!vertexMap.containsKey(sourceNode)) {
-            vertexMap.put(sourceNode, new Vertex(sourceNode));
-        }
-        if (!vertexMap.containsKey(destNode)) {
-            vertexMap.put(destNode, new Vertex(destNode));
-        }
-        Vertex source = vertexMap.get(sourceNode);
-        Vertex dest = vertexMap.get(destNode);
-        source.addNeighbor(dest, weight, edgeLabel); // Adding weighted edge
-    }
-
-    public void dijkstra(String startNode, String destinationNode) {
-        PriorityQueue<Vertex> priorityQueue = new PriorityQueue<>();
-        Vertex startVertex = vertexMap.get(startNode);
-        startVertex.minDistance = 0;
-        priorityQueue.add(startVertex);
-
-        while (!priorityQueue.isEmpty()) {
-            Vertex currentVertex = priorityQueue.poll();
-
-            for (Edge edge : currentVertex.adjacencies) {
-                Vertex neighbor = edge.target;
-                double weight = edge.weight;
-                double distanceThroughCurrent = currentVertex.minDistance + weight;
-
-                if (distanceThroughCurrent < neighbor.minDistance) {
-                    priorityQueue.remove(neighbor);
-                    neighbor.minDistance = distanceThroughCurrent;
-                    neighbor.prev = currentVertex;
-                    priorityQueue.add(neighbor);
-                }
-            }
-        }
-
-        // Setting destination vertex
-        vertexMap.get(destinationNode).prev = vertexMap.get(startNode);
-    }
-    public Vertex getVertex(String nodeName) {
-        return vertexMap.get(nodeName);
-    }
-}
-class Vertex implements Comparable<Vertex> {
-    public final String name;
-    public List<Edge> adjacencies;
-    public double minDistance = Double.POSITIVE_INFINITY;
-    public Vertex prev;
-
-    public Vertex(String argName) {
-        name = argName;
-        adjacencies = new ArrayList<>();
-    }
-
-    public void addNeighbor(Vertex neighbor, double weight, String edgeLabel) {
-        adjacencies.add(new Edge(neighbor, weight, edgeLabel));
-    }
-
-    public int compareTo(Vertex other) {
-        return Double.compare(minDistance, other.minDistance);
-    }
-}
-
-class Edge {
-    public final Vertex target;
-    public final double weight;
-    public final String label;
-
-    public Edge(Vertex argTarget, double argWeight, String argLabel) {
-        target = argTarget;
-        weight = argWeight;
-        label = argLabel;
-    }
 }
