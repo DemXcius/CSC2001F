@@ -7,9 +7,9 @@ import java.util.List;
 public class Optimize {
 
     public static void main(String[] args) {
-        List<String> LL = readUsernamesFromFile("mydata.txt");
+        List<String> L = readUsernamesFromFile("mydata.txt");
+        //List<int[]> weightCombinations = generateWeightCombinations(9, 4);
         List<int[]> weightCombinations = generateWeightCombinations(9, 4);
-
         int minProbes = Integer.MAX_VALUE;
         int countOfMinProbes = 0;
 
@@ -18,7 +18,7 @@ public class Optimize {
             hashTable.setWeights(weights);
 
             int totalProbes = 0;
-            for (String username : LL) {
+            for (String username : L) {
                 hashTable.insert(username);
                 totalProbes += hashTable.getProbeCount();
             }
