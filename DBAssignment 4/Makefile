@@ -28,10 +28,6 @@ classes: $(CLASSES)
 clean:
 	$(RM) $(BIN_DIR)/*.class
 
-# Run AutoTest.java
-run-AutoTest:
-	java -cp bin AutoTest
-
 # Run LPAutoTest.java
 run-LPAutoTest:
 	java -cp bin LPAutoTest
@@ -41,5 +37,5 @@ run-QPAutoTest:
 	java -cp bin QPAutoTest
 
 # Run Optimise.java
-run-Optimise:
-	java -cp bin Optimise
+run-Optimize:
+	java -cp bin Optimize

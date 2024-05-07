@@ -36,12 +36,15 @@ public class LPHashTable extends HashTable {
     // Linear Probing
     int initialIndex = hashIndex;
     do {
+      
       if (table[hashIndex] == null || table[hashIndex].equals(key)) {
+        incProbeCount();
         return hashIndex; // Found an empty slot or the key
       }
+      incProbeCount();
       hashIndex = (hashIndex + 1) % tableSize(); // Move to the next index
     } while (hashIndex != initialIndex); // Stop when looping back to the initial index
-
+    incProbeCount();
     // If it has looped through the entire table without finding an empty slot or key
     return -1; // Table is full under linear probing
   }

@@ -8,7 +8,6 @@ public class Optimize {
 
     public static void main(String[] args) {
         List<String> L = readUsernamesFromFile("mydata.txt");
-        //List<int[]> weightCombinations = generateWeightCombinations(9, 4);
         List<int[]> weightCombinations = generateWeightCombinations(9, 4);
         int minProbes = Integer.MAX_VALUE;
         int countOfMinProbes = 0;
@@ -16,11 +15,13 @@ public class Optimize {
         for (int[] weights : weightCombinations) {
             LPHashTable hashTable = new LPHashTable(37);
             hashTable.setWeights(weights);
-
-            int totalProbes = 0;
+            int totalProbes = 0; // Reset totalProbes for each weight combination
+            
             for (String username : L) {
                 hashTable.insert(username);
-                totalProbes += hashTable.getProbeCount();
+                totalProbes += hashTable.getProbeCount(); // Accumulate total probes
+                hashTable.resetProbeCount(); // Reset probe count for next insertion
+               
             }
 
             if (totalProbes < minProbes) {
