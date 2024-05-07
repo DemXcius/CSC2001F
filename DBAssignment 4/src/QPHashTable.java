@@ -33,6 +33,7 @@ public class QPHashTable extends HashTable {
     int i = 1; // Quadratic probing starts from i = 1
 
     while (table[hashIndex] != null && !table[hashIndex].equals(key)) {
+      incProbeCount();
       // Quadratic probing: hashIndex = (initial hashIndex + i^2) % tableSize
       hashIndex = (hashIndex + i * i) % tableSize();
       i++;
@@ -42,7 +43,7 @@ public class QPHashTable extends HashTable {
         return -1; // Probing failure
       }
     }
-
+    incProbeCount();
     return hashIndex; // Return the index of the first empty slot found or -1 if probing fails
   }
 }
