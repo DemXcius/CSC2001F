@@ -31,11 +31,11 @@ public class QPHashTable extends HashTable {
   protected int findIndex(String key) {
     int hashIndex = hashFunction(key);
     int i = 1; // Quadratic probing starts from i = 1
-
-    while (table[hashIndex] != null && !table[hashIndex].equals(key)) {
+    int tempHashIndex = hashIndex;
+    while (table[tempHashIndex] != null && !table[tempHashIndex].equals(key)) {
       incProbeCount();
       // Quadratic probing: hashIndex = (initial hashIndex + i^2) % tableSize
-      hashIndex = (hashIndex + i * i) % tableSize();
+      tempHashIndex = (hashIndex + i * i) % tableSize();
       i++;
 
       // Check if the number of probes exceeds the table size
@@ -44,6 +44,6 @@ public class QPHashTable extends HashTable {
       }
     }
     incProbeCount();
-    return hashIndex; // Return the index of the first empty slot found or -1 if probing fails
+    return tempHashIndex; // Return the index of the first empty slot found or -1 if probing fails
   }
 }

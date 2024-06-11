@@ -39,3 +39,6 @@ run-QPAutoTest:
 # Run Optimise.java
 run-Optimize:
 	java -cp bin Optimize
+
+run-DataMaker:
+	java -cp bin DataMaker
